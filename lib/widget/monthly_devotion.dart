@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class MonthlyDevotion extends StatelessWidget {
   final int index;
   final Size size;
-  MonthlyDevotion({@required this.size, @required this.index});
+  final bool selected;
+  MonthlyDevotion(
+      {@required this.size, @required this.index, @required this.selected});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class MonthlyDevotion extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            color: white,
+            color: selected ? grey : white,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -34,7 +36,8 @@ class MonthlyDevotion extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
-                    color: Color(0xff67727d).withOpacity(0.6)),
+                    color:
+                        selected ? white : Color(0xff67727d).withOpacity(0.6)),
               ),
               SizedBox(
                 height: 10,
@@ -49,6 +52,7 @@ class MonthlyDevotion extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
+                          color: selected ? white : Colors.black,
                         ),
                       ),
                       SizedBox(
@@ -61,7 +65,9 @@ class MonthlyDevotion extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 13,
-                              color: Color(0xff67727d).withOpacity(0.6)),
+                              color: selected
+                                  ? white
+                                  : Color(0xff67727d).withOpacity(0.6)),
                         ),
                       ),
                     ],
@@ -78,7 +84,9 @@ class MonthlyDevotion extends StatelessWidget {
                     height: 4,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: Color(0xff67727d).withOpacity(0.1)),
+                        color: selected
+                            ? white
+                            : Color(0xff67727d).withOpacity(0.1)),
                   ),
                   Container(
                     width: (size.width - 40) *

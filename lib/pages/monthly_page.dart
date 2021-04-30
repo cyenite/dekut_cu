@@ -123,7 +123,11 @@ class _BudgetPageState extends State<BudgetPage> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
                 children: List.generate(monthly_devotions.length, (index) {
-              return MonthlyDevotion(index: index, size: size);
+              return MonthlyDevotion(
+                index: index,
+                size: size,
+                selected: activeDay == index ? true : false,
+              );
             })),
           )
         ],
