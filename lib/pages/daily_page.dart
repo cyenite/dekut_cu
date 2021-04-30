@@ -118,6 +118,7 @@ class _DailyPageState extends State<DailyPage> {
               return DailyDevotion(
                 size: size,
                 index: index,
+                selected: activeDay == index ? true : false,
               );
             })),
           ),

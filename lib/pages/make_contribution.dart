@@ -1,4 +1,4 @@
-import 'package:dekut_cu/json/create_budget_json.dart';
+import 'package:dekut_cu/json/contribution_categories.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';

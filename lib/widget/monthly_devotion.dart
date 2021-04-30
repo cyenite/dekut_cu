@@ -30,7 +30,7 @@ class MonthlyDevotion extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                monthly_devotions[index]['week'],
+                monthly_devotions[index]['month'],
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 13,

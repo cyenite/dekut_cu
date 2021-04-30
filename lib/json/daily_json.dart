@@ -1,32 +1,44 @@
 const List daily = [
   {
     "icon": "assets/images/bank.png",
-    "name": "Bank",
-    "date": "Fri 10AM",
-    "price": "\$340.00"
+    "title": "Reckoning of Grace",
+    "date": "28th March, 2021",
+    "book": "Romans 4.4-5"
   },
   {
-    "icon": "assets/images/auto.png",
-    "name": "Automobile",
-    "date": "Mon 8AM",
-    "price": "\$70.00"
+    "icon": "assets/images/bank.png",
+    "title": "Reigning and Dominating",
+    "date": "29th March, 2021",
+    "book": "Genesis 1.26"
   },
   {
-    "icon": "assets/images/gift.png",
-    "name": "Gift",
-    "date": "Sat 6PM",
-    "price": "\$110.00"
+    "icon": "assets/images/bank.png",
+    "title": "As He is, so are you ",
+    "date": "30th March, 2021",
+    "book": "1 John 4.17"
   },
   {
-    "icon": "assets/images/eating.png",
-    "name": "Eating",
-    "date": "Sun 5PM",
-    "price": "\$60.00"
+    "icon": "assets/images/bank.png",
+    "title": "Paid in Full",
+    "date": "31st March, 2021",
+    "book": "2 Cor 5.21"
   },
   {
-    "icon": "assets/images/charity.png",
-    "name": "Charity",
-    "date": "Wed 12PM",
-    "price": "\$1200.00"
-  }
+    "icon": "assets/images/bank.png",
+    "title": "Live by Grace",
+    "date": "1st February, 2021",
+    "book": "Galatians 5.4"
+  },
+  {
+    "icon": "assets/images/bank.png",
+    "title": "The Testimony of Grace",
+    "date": "2nd February, 2021",
+    "book": "Romans 3.19"
+  },
+  {
+    "icon": "assets/images/bank.png",
+    "title": "Independent of Works",
+    "date": "3rd February, 2021",
+    "book": "Romans 11.6"
+  },
 ];

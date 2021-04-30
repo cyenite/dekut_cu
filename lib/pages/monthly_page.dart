@@ -44,7 +44,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Monthly Devotionals",
+                        "Quarterly Devotionals",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -52,10 +52,6 @@ class _BudgetPageState extends State<BudgetPage> {
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.add,
-                            size: 25,
-                          ),
                           SizedBox(
                             width: 20,
                           ),
