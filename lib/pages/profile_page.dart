@@ -1,5 +1,5 @@
 import 'package:dekut_cu/pages/auth/auth.dart';
-import 'package:dekut_cu/pages/budget_page.dart';
+import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

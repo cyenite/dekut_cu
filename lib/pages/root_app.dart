@@ -1,7 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:dekut_cu/pages/budget_page.dart';
-import 'package:dekut_cu/pages/create_budge_page.dart';
+import 'package:dekut_cu/pages/make_contribution.dart';
 import 'package:dekut_cu/pages/daily_page.dart';
+import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/pages/profile_page.dart';
 import 'package:dekut_cu/pages/stats_page.dart';
 import 'package:dekut_cu/theme/colors.dart';
