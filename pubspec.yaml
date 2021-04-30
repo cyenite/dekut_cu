@@ -42,6 +42,7 @@ dependencies:
   firebase_core : any
   cloud_firestore: any
   get: any
+  mpesa: any
 
 
 dev_dependencies:
