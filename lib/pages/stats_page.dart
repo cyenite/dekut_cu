@@ -193,7 +193,7 @@ class _StatsPageState extends State<StatsPage> {
           SizedBox(
             height: 20,
           ),
-          Wrap(
+          /* Wrap(
               spacing: 20,
               children: List.generate(expenses.length, (index) {
                 return Container(
@@ -255,7 +255,7 @@ class _StatsPageState extends State<StatsPage> {
                     ),
                   ),
                 );
-              }))
+              }))*/
         ],
       ),
     );

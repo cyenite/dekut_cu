@@ -44,11 +44,11 @@ LineChartData mainData() {
         getTitles: (value) {
           switch (value.toInt()) {
             case 1:
-              return '10k';
+              return '1k';
             case 3:
-              return '50k';
+              return '1.5k';
             case 5:
-              return '100k';
+              return '2k';
           }
           return '';
         },
