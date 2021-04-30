@@ -156,7 +156,7 @@ class _StatsPageState extends State<StatsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Net balance",
+                            "Net contributions",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 13,
@@ -166,7 +166,7 @@ class _StatsPageState extends State<StatsPage> {
                             height: 10,
                           ),
                           Text(
-                            "\$2446.90",
+                            "KES 2446.90",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,

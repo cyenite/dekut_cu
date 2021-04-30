@@ -4,9 +4,10 @@ import 'package:dekut_cu/pages/auth/widgets/register.dart';
 import 'package:dekut_cu/pages/auth/widgets/sign_in.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
-import '../home.dart';
+import '../root_app.dart';
 import 'widgets/background_painter.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
         onAuthSuccess: () {
-          Navigator.of(context).pushReplacement(HomeScreen.route);
+          Get.off(RootApp());
         },
         child: Stack(
           children: [

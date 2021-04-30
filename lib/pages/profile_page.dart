@@ -1,6 +1,11 @@
+import 'package:dekut_cu/pages/auth/auth.dart';
+import 'package:dekut_cu/pages/budget_page.dart';
 import 'package:dekut_cu/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -9,20 +14,28 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  TextEditingController _email =
-      TextEditingController(text: "abbie_wilson@gmail.com");
+  User user;
+  TextEditingController _email = TextEditingController();
+  TextEditingController _name = TextEditingController();
   TextEditingController dateOfBirth = TextEditingController(text: "04-19-1992");
   TextEditingController password = TextEditingController(text: "123456");
   @override
   Widget build(BuildContext context) {
+    final litUser = context.getSignedInUser();
+    litUser.when(
+      (litUser) => user = litUser,
+      empty: () {},
+      initializing: () {},
+    );
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
-      body: getBody(),
+      body: getBody(user),
     );
   }
 
-  Widget getBody() {
+  Widget getBody(User user) {
     var size = MediaQuery.of(context).size;
+    _email.text = user.email;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +64,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(AntDesign.setting)
+                      GestureDetector(
+                        onTap: () {
+                          context.signOut();
+                          Get.off(AuthScreen());
+                        },
+                        child: Icon(AntDesign.logout),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -83,8 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          image: NetworkImage(
-                                              "https://images.unsplash.com/photo-1531256456869-ce942a665e80?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI4fHxwcm9maWxlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"),
+                                          image: NetworkImage(user.photoURL),
                                           fit: BoxFit.cover)),
                                 ),
                               )
@@ -98,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Abbie Wilson",
+                              user.displayName,
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -108,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               height: 10,
                             ),
                             Text(
-                              "Credit score: 73.50",
+                              'Email verified',
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -145,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "United Bank Asia",
+                                "Completed Devotionals",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
@@ -155,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 10,
                               ),
                               Text(
-                                "\$2446.90",
+                                "12",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -163,15 +181,20 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ],
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: white)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(13.0),
-                              child: Text(
-                                "Update",
-                                style: TextStyle(color: white),
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(BudgetPage());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: white)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: Text(
+                                  "Continue",
+                                  style: TextStyle(color: white),
+                                ),
                               ),
                             ),
                           )
@@ -199,6 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Color(0xff67727d)),
                 ),
                 TextField(
+                  readOnly: true,
                   controller: _email,
                   cursorColor: black,
                   style: TextStyle(
@@ -209,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
+                /*   Text(
                   "Date of birth",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
@@ -242,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 17, fontWeight: FontWeight.bold, color: black),
                   decoration: InputDecoration(
                       hintText: "Password", border: InputBorder.none),
-                ),
+                ),*/
               ],
             ),
           )
