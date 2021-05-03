@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: any
   get: any
   mpesa: any
+  flutterwave: ^0.0.2
 
 
 dev_dependencies:

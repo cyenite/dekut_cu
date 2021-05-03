@@ -1,8 +1,11 @@
 import 'package:dekut_cu/json/contribution_categories.dart';
-import 'package:dekut_cu/services/mpesa_service.dart';
 import 'package:dekut_cu/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutterwave/flutterwave.dart';
+import 'package:flutterwave/models/responses/charge_response.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class CreatBudgetPage extends StatefulWidget {
   @override
@@ -10,16 +13,81 @@ class CreatBudgetPage extends StatefulWidget {
 }
 
 class _CreatBudgetPageState extends State<CreatBudgetPage> {
+  User user;
   bool _isLoading = false;
   int activeCategory = 0;
+  String selectedCategory = "Giving";
   TextEditingController _phoneNumber = TextEditingController();
   TextEditingController _amount = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final litUser = context.getSignedInUser();
+    litUser.when(
+      (litUser) => user = litUser,
+      empty: () {},
+      initializing: () {},
+    );
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(),
     );
+  }
+
+  makePayment() async {
+    final Flutterwave flutterwave = Flutterwave.forUIPayment(
+        context: this.context,
+        encryptionKey: "bccd0579b15c717fe038acbf",
+        publicKey: "FLWPUBK-b239cd3d22a82875d1c6e99f688c4b56-X",
+        currency: "KES",
+        amount: _amount.text,
+        email: user.email,
+        fullName: "Valid Full Name",
+        txRef: "Test Payment",
+        isDebugMode: false,
+        phoneNumber: _phoneNumber.text,
+        acceptCardPayment: false,
+        acceptUSSDPayment: false,
+        acceptAccountPayment: false,
+        acceptFrancophoneMobileMoney: false,
+        acceptGhanaPayment: false,
+        acceptMpesaPayment: true,
+        acceptRwandaMoneyPayment: false,
+        acceptUgandaPayment: false,
+        acceptZambiaPayment: false);
+
+    try {
+      final ChargeResponse response =
+          await flutterwave.initializeForUiPayments();
+      if (response == null) {
+        // user didn't complete the transaction. Payment wasn't successful.
+      } else {
+        final isSuccessful = checkPaymentIsSuccessful(response);
+        if (isSuccessful) {
+          _phoneNumber.text = "2547********";
+          _amount.text = "";
+          // provide value to customer
+        } else {
+          // check message
+          print(response.message);
+
+          // check status
+          print(response.status);
+
+          // check processor error
+          print(response.data.processorResponse);
+        }
+      }
+    } catch (error, stacktrace) {
+      // handleError(error);
+      // print(stacktrace);
+    }
+  }
+
+  bool checkPaymentIsSuccessful(final ChargeResponse response) {
+    return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
+        response.data.currency == "KES" &&
+        response.data.amount == _amount.text &&
+        response.data.txRef == "Test Payment";
   }
 
   Widget getBody() {
@@ -84,6 +152,7 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
                     onTap: () {
                       setState(() {
                         activeCategory = index;
+                        selectedCategory = categories[index];
                       });
                     },
                     child: Padding(
@@ -210,23 +279,7 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            //PaymentHelper.stkPush(_phoneNumber.text, _amount.text);
-                            PaymentHelper.mpesa
-                                .lipaNaMpesa(
-                              phoneNumber: _phoneNumber.text,
-                              amount: double.parse(_amount.text),
-                              businessShortCode: "174379",
-                              callbackUrl:
-                                  "http://mpesa-requestbin.herokuapp.com/1kojq2r1",
-                            )
-                                .then((result) {
-                              _isLoading = false;
-                            }).catchError((error) {
-                              _isLoading = false;
-                            });
+                            makePayment();
                           },
                           child: Container(
                             width: 50,
