@@ -152,7 +152,7 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
                     onTap: () {
                       setState(() {
                         activeCategory = index;
-                        selectedCategory = categories[index];
+                        selectedCategory = categories[index]['name'];
                       });
                     },
                     child: Padding(
