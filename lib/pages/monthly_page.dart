@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/json/day_month.dart';
-import 'package:dekut_cu/json/devotionals_json.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/monthly_devotion.dart';
 import 'package:flutter/material.dart';
@@ -121,14 +121,52 @@ class _BudgetPageState extends State<BudgetPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("devotionals")
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final docs = snapshot.data.docs;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final devotional = docs[index].data();
+                      return MonthlyDevotion(
+                        size: size,
+                        index: index,
+                        selected: activeDay == index ? true : false,
+                        title: devotional['title'],
+                        teaching: devotional['teaching'],
+                      );
+                      /*ProjectCampaign(
+                          project: Project(
+                              caption: project['caption'],
+                              timeAgo: project['timeAgo'],
+                              donations: project['donations'],
+                              title: project['title'],
+                              imageUrl: project['imageUrl'],
+                              target: project['target']));*/
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+            /*Column(
                 children: List.generate(monthly_devotions.length, (index) {
               return MonthlyDevotion(
                 index: index,
                 size: size,
                 selected: activeDay == index ? true : false,
               );
-            })),
+            })),*/
           )
         ],
       ),
