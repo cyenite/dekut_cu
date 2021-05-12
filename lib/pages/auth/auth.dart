@@ -2,6 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/pages/auth/widgets/register.dart';
 import 'package:dekut_cu/pages/auth/widgets/sign_in.dart';
+import 'package:dekut_cu/services/auth_helper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,6 +44,13 @@ class _AuthScreenState extends State<AuthScreen>
 
   @override
   Widget build(BuildContext context) {
+    User user;
+    final litUser = context.getSignedInUser();
+    litUser.when(
+      (litUser) => user = litUser,
+      empty: () {},
+      initializing: () {},
+    );
     return Scaffold(
       body: LitAuth.custom(
         errorNotification: const NotificationConfig(
@@ -53,6 +62,7 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
         onAuthSuccess: () {
+          AuthHelper.saveUser(user);
           Get.off(RootApp());
         },
         child: Stack(

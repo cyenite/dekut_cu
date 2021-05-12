@@ -15,4 +15,31 @@ class DbHelper {
         .doc(devotional.title)
         .set(devotionalData);
   }
+
+  static Future<Map<String, dynamic>> getCountAnalytics() async {
+    int usersSize = 0;
+    int devotionalsSize = 0;
+    int paymentsSize = 0;
+    int studiesSize = 0;
+    await _db.collection('devotionals').get().then((snap) => {
+          devotionalsSize = snap.size // will return the collection size
+        });
+    await _db.collection('users').get().then((snap) => {
+          usersSize = snap.size // will return the collection size
+        });
+    await _db.collection('payments').get().then((snap) => {
+          paymentsSize = snap.size // will return the collection size
+        });
+    await _db.collection('studies').get().then((snap) => {
+          studiesSize = snap.size // will return the collection size
+        });
+
+    var countMap = {
+      'devotionalCount': devotionalsSize,
+      'userCount': usersSize,
+      'paymentCount': paymentsSize,
+      'studyCount': studiesSize,
+    };
+    return countMap;
+  }
 }
