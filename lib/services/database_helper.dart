@@ -42,4 +42,19 @@ class DbHelper {
     };
     return countMap;
   }
+
+  static saveDevotional(Devotional devotional) async {
+    Map<String, dynamic> devotionalData = {
+      "title": devotional.title,
+      "teaching": devotional.teaching,
+    };
+    final devotionalRef = _db.collection("devotionals").doc(devotional.title);
+    if ((await devotionalRef.get()).exists) {
+      await devotionalRef.update({
+        "teaching": devotional.teaching,
+      });
+    } else {
+      await _db.collection("devotionals").add(devotionalData);
+    }
+  }
 }

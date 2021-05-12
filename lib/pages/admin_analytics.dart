@@ -1,4 +1,5 @@
 import 'package:dekut_cu/json/day_month.dart';
+import 'package:dekut_cu/models/devotional.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/analytic_container.dart';
@@ -54,7 +55,14 @@ class _AdminStatsState extends State<AdminStats> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(AntDesign.search1)
+                      GestureDetector(
+                        onTap: () async {
+                          await DbHelper.saveDevotional(Devotional(
+                              title: 'Test Devotional',
+                              teaching: 'Teaching devotional test 2'));
+                        },
+                        child: Icon(AntDesign.search1),
+                      ),
                     ],
                   ),
                   SizedBox(

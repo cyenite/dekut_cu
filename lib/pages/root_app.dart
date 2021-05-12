@@ -4,9 +4,12 @@ import 'package:dekut_cu/pages/daily_page.dart';
 import 'package:dekut_cu/pages/make_contribution.dart';
 import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/pages/profile_page.dart';
+import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({Key key}) : super(key: key);
@@ -40,6 +43,14 @@ class _RootAppState extends State<RootApp> {
 
   @override
   Widget build(BuildContext context) {
+    User user;
+    final litUser = context.getSignedInUser();
+    litUser.when(
+      (litUser) => user = litUser,
+      empty: () {},
+      initializing: () {},
+    );
+    AuthHelper.saveUser(user);
     return Scaffold(
         body: getBody(),
         bottomNavigationBar: getFooter(),

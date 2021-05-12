@@ -44,13 +44,7 @@ class _AuthScreenState extends State<AuthScreen>
 
   @override
   Widget build(BuildContext context) {
-    User user;
-    final litUser = context.getSignedInUser();
-    litUser.when(
-      (litUser) => user = litUser,
-      empty: () {},
-      initializing: () {},
-    );
+
     return Scaffold(
       body: LitAuth.custom(
         errorNotification: const NotificationConfig(
@@ -62,7 +56,6 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
         onAuthSuccess: () {
-          AuthHelper.saveUser(user);
           Get.off(RootApp());
         },
         child: Stack(
