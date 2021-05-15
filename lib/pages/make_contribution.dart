@@ -9,12 +9,12 @@ import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
-class CreatBudgetPage extends StatefulWidget {
+class ContributionPage extends StatefulWidget {
   @override
-  _CreatBudgetPageState createState() => _CreatBudgetPageState();
+  _ContributionPageState createState() => _ContributionPageState();
 }
 
-class _CreatBudgetPageState extends State<CreatBudgetPage> {
+class _ContributionPageState extends State<ContributionPage> {
   User user;
   bool _isLoading = false;
   int activeCategory = 0;

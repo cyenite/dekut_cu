@@ -5,12 +5,12 @@ import 'package:dekut_cu/widget/monthly_devotion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class BudgetPage extends StatefulWidget {
+class DevotionalsPage extends StatefulWidget {
   @override
-  _BudgetPageState createState() => _BudgetPageState();
+  _DevotionalsPageState createState() => _DevotionalsPageState();
 }
 
-class _BudgetPageState extends State<BudgetPage> {
+class _DevotionalsPageState extends State<DevotionalsPage> {
   int activeDay = 3;
   @override
   Widget build(BuildContext context) {

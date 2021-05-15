@@ -28,18 +28,18 @@ class _RootAppState extends State<RootApp> {
   int pageIndex = 0;
   List<Widget> pages = [
     DailyPage(),
-    BudgetPage(),
+    DevotionalsPage(),
     StatsPage(),
     ProfilePage(),
-    CreatBudgetPage()
+    ContributionPage()
   ];
 
   List<Widget> adminPages = [
     DailyPage(),
-    BudgetPage(),
+    DevotionalsPage(),
     AdminStats(),
     ProfilePage(),
-    CreatBudgetPage()
+    ContributionPage()
   ];
 
   @override

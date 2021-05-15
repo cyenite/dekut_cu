@@ -1,4 +1,3 @@
-import 'package:dekut_cu/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class StudyDetail extends StatefulWidget {
@@ -43,7 +42,7 @@ class _StudyDetailState extends State<StudyDetail> {
                       child: ClipRRect(
                         child: const SizedBox.shrink(),
                       ),
-                      color: primary,
+                      color: Colors.black26,
                     ),
                     Positioned(
                       bottom: 0,
@@ -138,7 +137,7 @@ class _StudyDetailState extends State<StudyDetail> {
                           widget.teaching,
                           style: TextStyle(
                               fontSize: 16.0,
-                              color: Colors.grey,
+                              color: Colors.black,
                               letterSpacing: 1),
                         )
                       ],

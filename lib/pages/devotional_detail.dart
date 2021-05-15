@@ -1,4 +1,3 @@
-import 'package:dekut_cu/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class DevotionalDetail extends StatefulWidget {
@@ -39,7 +38,7 @@ class _DevotionalDetailState extends State<DevotionalDetail> {
                       child: ClipRRect(
                         child: const SizedBox.shrink(),
                       ),
-                      color: primary,
+                      color: Colors.black26,
                     ),
                     Positioned(
                       bottom: 0,
@@ -133,7 +132,7 @@ class _DevotionalDetailState extends State<DevotionalDetail> {
                           widget.caption,
                           style: TextStyle(
                               fontSize: 16.0,
-                              color: Colors.grey,
+                              color: Colors.black,
                               letterSpacing: 1),
                         )
                       ],

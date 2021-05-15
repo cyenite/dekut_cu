@@ -173,9 +173,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 10,
                               ),
                               Text(
-                                "12",
+                                "Coming soon",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w100,
+                                    fontStyle: FontStyle.italic,
                                     fontSize: 20,
                                     color: white),
                               ),
@@ -183,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(BudgetPage());
+                              Get.to(DevotionalsPage());
                             },
                             child: Container(
                               decoration: BoxDecoration(
