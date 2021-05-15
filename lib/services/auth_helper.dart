@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
-class AuthHelper {
+class AuthHelper extends GetxController {
+  RxBool isAdmin = false.obs;
+
   static FirebaseFirestore _db = FirebaseFirestore.instance;
   static saveAdminUser(User user) async {
     Map<String, dynamic> userData = {
@@ -20,6 +23,7 @@ class AuthHelper {
       await _db.collection("users").doc(user.uid).set(userData);
     }
   }
+
   static saveUser(User user) async {
     Map<String, dynamic> userData = {
       "name": user.displayName,
