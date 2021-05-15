@@ -1,10 +1,10 @@
+import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/json/day_month.dart';
 import 'package:dekut_cu/models/devotional.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/analytic_container.dart';
-import 'package:dekut_cu/widget/chart.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:dekut_cu/widget/content_management_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -14,6 +14,11 @@ class AdminStats extends StatefulWidget {
 }
 
 class _AdminStatsState extends State<AdminStats> {
+  final GlobalKey<FormState> _reqFormKey = GlobalKey<FormState>();
+  final TextEditingController _titleEditingController = TextEditingController();
+  final TextEditingController _monthEditingController = TextEditingController();
+  final TextEditingController _teachingEditingController =
+      TextEditingController();
   int activeDay = 3;
 
   bool showAvg = false;
@@ -56,11 +61,7 @@ class _AdminStatsState extends State<AdminStats> {
                             color: black),
                       ),
                       GestureDetector(
-                        onTap: () async {
-                          await DbHelper.saveDevotional(Devotional(
-                              title: 'Test Devotional',
-                              teaching: 'Teaching devotional test 2'));
-                        },
+                        onTap: () async {},
                         child: Icon(AntDesign.search1),
                       ),
                     ],
@@ -152,7 +153,7 @@ class _AdminStatsState extends State<AdminStats> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Your Net contributions",
+                            "Content management",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 13,
@@ -161,13 +162,6 @@ class _AdminStatsState extends State<AdminStats> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            "KES 2446.90",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
-                          )
                         ],
                       ),
                     ),
@@ -176,8 +170,24 @@ class _AdminStatsState extends State<AdminStats> {
                       child: Container(
                         width: (size.width - 20),
                         height: 150,
-                        child: LineChart(
-                          mainData(),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                addQuarterlyDialog();
+                              },
+                              child: ContentManagementContainer(
+                                color: Palette.orange,
+                                detail: '',
+                                label: 'Add Quarterly Devotionals',
+                              ),
+                            ),
+                            ContentManagementContainer(
+                              color: Palette.darkBlue,
+                              detail: '',
+                              label: 'Add Daily Bible Study',
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -260,5 +270,164 @@ class _AdminStatsState extends State<AdminStats> {
         ],
       ),
     );
+  }
+
+  Future<void> addQuarterlyDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _reqFormKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _titleEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Title required";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Title of devotional",
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _monthEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Month required";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "e.g. January...",
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _teachingEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty
+                              ? null
+                              : "Enter/paste teaching";
+                        },
+                        minLines: 7,
+                        maxLines: 200,
+                        decoration: InputDecoration(
+                          hintText: "Write/paste teaching",
+                        ),
+                      ),
+                    ],
+                  )),
+              title: Text('Add Quartely Devotional'),
+              actions: <Widget>[
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Palette.darkBlue,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 13.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      'Submit',
+                    ),
+                  ),
+                  onTap: () async {
+                    if (_reqFormKey.currentState.validate()) {
+                      await DbHelper.saveDevotional(Devotional(
+                          month: _monthEditingController.text,
+                          title: _titleEditingController.text,
+                          teaching: _teachingEditingController.text));
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+        });
+  }
+
+  Future<void> addDailyDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _reqFormKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _titleEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Title required";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Title of devotional",
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _monthEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Month required";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "e.g. January...",
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _teachingEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty
+                              ? null
+                              : "Enter/paste teaching";
+                        },
+                        minLines: 7,
+                        decoration: InputDecoration(
+                          hintText: "Write/paste teaching",
+                        ),
+                      ),
+                    ],
+                  )),
+              title: Text('Add Quartely Devotional'),
+              actions: <Widget>[
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Palette.darkBlue,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 13.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      'Submit',
+                    ),
+                  ),
+                  onTap: () async {
+                    if (_reqFormKey.currentState.validate()) {
+                      await DbHelper.saveDevotional(Devotional(
+                          month: _monthEditingController.text,
+                          title: _titleEditingController.text,
+                          teaching: _teachingEditingController.text));
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+        });
   }
 }

@@ -45,6 +45,7 @@ class DbHelper {
 
   static saveDevotional(Devotional devotional) async {
     Map<String, dynamic> devotionalData = {
+      "month": devotional.month,
       "title": devotional.title,
       "teaching": devotional.teaching,
     };

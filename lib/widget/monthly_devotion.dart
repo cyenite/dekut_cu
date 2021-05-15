@@ -1,18 +1,19 @@
-import 'package:dekut_cu/json/devotionals_json.dart';
+import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/pages/devotional_detail.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MonthlyDevotion extends StatelessWidget {
-  final int index;
+  //final int index;
   final Size size;
   final bool selected;
   final String title;
   final String teaching;
+  final String month;
   MonthlyDevotion(
       {@required this.size,
-      @required this.index,
+      @required this.month,
       @required this.selected,
       @required this.title,
       @required this.teaching});
@@ -44,13 +45,12 @@ class MonthlyDevotion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  monthly_devotions[index]['month'],
+                  month,
                   style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: selected
-                          ? white
-                          : Color(0xff67727d).withOpacity(0.6)),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    color: selected ? white : Palette.darkOrange,
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -74,13 +74,13 @@ class MonthlyDevotion extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 3),
                           child: Text(
-                            monthly_devotions[index]['completion_percentage'],
+                            '0%',
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 13,
                                 color: selected
-                                    ? white
-                                    : Color(0xff67727d).withOpacity(0.6)),
+                                    ? Colors.blue
+                                    : Colors.blue.withOpacity(0.6)),
                           ),
                         ),
                       ],
@@ -97,17 +97,14 @@ class MonthlyDevotion extends StatelessWidget {
                       height: 4,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: selected
-                              ? white
-                              : Color(0xff67727d).withOpacity(0.1)),
+                          color: Palette.lightBlue),
                     ),
                     Container(
-                      width: (size.width - 40) *
-                          monthly_devotions[index]['percentage'],
+                      width: (size.width - 40) * 0,
                       height: 4,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: monthly_devotions[index]['color']),
+                          color: Palette.darkBlue),
                     ),
                   ],
                 )

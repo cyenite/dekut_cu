@@ -137,8 +137,10 @@ class _BudgetPageState extends State<BudgetPage> {
                       final devotional = docs[index].data();
                       return MonthlyDevotion(
                         size: size,
-                        index: index,
-                        selected: activeDay == index ? true : false,
+                        month: devotional['month'],
+                        selected: activeDay == index && activeDay != null
+                            ? true
+                            : false,
                         title: devotional['title'],
                         teaching: devotional['teaching'],
                       );
