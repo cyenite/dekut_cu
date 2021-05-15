@@ -144,14 +144,6 @@ class _BudgetPageState extends State<BudgetPage> {
                         title: devotional['title'],
                         teaching: devotional['teaching'],
                       );
-                      /*ProjectCampaign(
-                          project: Project(
-                              caption: project['caption'],
-                              timeAgo: project['timeAgo'],
-                              donations: project['donations'],
-                              title: project['title'],
-                              imageUrl: project['imageUrl'],
-                              target: project['target']));*/
                     },
                   );
                 } else {

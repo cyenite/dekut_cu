@@ -1,4 +1,4 @@
-import 'package:dekut_cu/json/daily_json.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/json/day_month.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/daily_devotion.dart';
@@ -113,14 +113,36 @@ class _DailyPageState extends State<DailyPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-                children: List.generate(daily.length, (index) {
-              return DailyDevotion(
-                size: size,
-                index: index,
-                selected: activeDay == index ? true : false,
-              );
-            })),
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("daily_studies")
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final docs = snapshot.data.docs;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final devotional = docs[index].data();
+                      return DailyDevotion(
+                        size: size,
+                        date: devotional['date'],
+                        teaching: devotional['teaching'],
+                        title: devotional['title'],
+                        verse: devotional['verse'],
+                      );
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
           ),
           SizedBox(
             height: 15,

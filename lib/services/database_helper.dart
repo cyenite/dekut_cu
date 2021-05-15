@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
 
 class DbHelper {
@@ -56,6 +57,23 @@ class DbHelper {
       });
     } else {
       await _db.collection("devotionals").add(devotionalData);
+    }
+  }
+
+  static saveDailyStudy(DailyStudy study) async {
+    Map<String, dynamic> devotionalData = {
+      "title": study.title,
+      "date": study.date,
+      "verse": study.verse,
+      "teaching": study.teaching,
+    };
+    final devotionalRef = _db.collection("daily_studies").doc(study.title);
+    if ((await devotionalRef.get()).exists) {
+      await devotionalRef.update({
+        "teaching": study.teaching,
+      });
+    } else {
+      await _db.collection("daily_studies").add(devotionalData);
     }
   }
 }
