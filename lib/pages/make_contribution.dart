@@ -1,4 +1,6 @@
 import 'package:dekut_cu/json/contribution_categories.dart';
+import 'package:dekut_cu/models/payment.dart';
+import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +67,12 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
         if (isSuccessful) {
           _phoneNumber.text = "2547********";
           _amount.text = "";
+          await DbHelper.savePayment(
+            Payment(
+                amount: _amount.text,
+                phoneNumber: _phoneNumber.text,
+                category: selectedCategory),
+          );
           // provide value to customer
         } else {
           // check message

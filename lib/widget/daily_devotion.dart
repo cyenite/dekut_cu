@@ -73,7 +73,7 @@ class DailyDevotion extends StatelessWidget {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              date,
+                              date == null ? 'null' : date,
                               style: TextStyle(
                                   fontSize: 12,
                                   color: black.withOpacity(0.5),

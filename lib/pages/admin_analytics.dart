@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/json/day_month.dart';
+import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/analytic_container.dart';
 import 'package:dekut_cu/widget/content_management_container.dart';
+import 'package:dekut_cu/widget/incoming_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -15,11 +19,20 @@ class AdminStats extends StatefulWidget {
 
 class _AdminStatsState extends State<AdminStats> {
   final GlobalKey<FormState> _reqFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _reqFormKey2 = GlobalKey<FormState>();
   final TextEditingController _titleEditingController = TextEditingController();
   final TextEditingController _monthEditingController = TextEditingController();
   final TextEditingController _teachingEditingController =
       TextEditingController();
+  final TextEditingController _title2EditingController =
+      TextEditingController();
+  final TextEditingController _verseEditingController = TextEditingController();
+  final TextEditingController _teaching2EditingController =
+      TextEditingController();
+
   int activeDay = 3;
+  String _verseDay =
+      DateFormat('dd/MM/yyyy  kk:mm').format(DateTime.now()).toString();
 
   bool showAvg = false;
   @override
@@ -182,10 +195,15 @@ class _AdminStatsState extends State<AdminStats> {
                                 label: 'Add Quarterly Devotionals',
                               ),
                             ),
-                            ContentManagementContainer(
-                              color: Palette.darkBlue,
-                              detail: '',
-                              label: 'Add Daily Bible Study',
+                            GestureDetector(
+                              onTap: () {
+                                addDailyDialog();
+                              },
+                              child: ContentManagementContainer(
+                                color: Palette.darkBlue,
+                                detail: '',
+                                label: 'Add Daily Bible Study',
+                              ),
                             ),
                           ],
                         ),
@@ -227,10 +245,15 @@ class _AdminStatsState extends State<AdminStats> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          AnalyticContainer(
-                            color: Colors.deepOrange,
-                            detail: snapshot.data['paymentCount'].toString(),
-                            label: 'Total Payments',
+                          GestureDetector(
+                            onTap: () {
+                              incomingPayments();
+                            },
+                            child: AnalyticContainer(
+                              color: Colors.deepOrange,
+                              detail: snapshot.data['paymentCount'].toString(),
+                              label: 'Total Payments',
+                            ),
                           ),
                           AnalyticContainer(
                             color: Colors.deepOrange,
@@ -316,7 +339,7 @@ class _AdminStatsState extends State<AdminStats> {
                       ),
                     ],
                   )),
-              title: Text('Add Quartely Devotional'),
+              title: Text('Add Quarterly Devotional'),
               actions: <Widget>[
                 InkWell(
                   child: Container(
@@ -342,6 +365,9 @@ class _AdminStatsState extends State<AdminStats> {
                           month: _monthEditingController.text,
                           title: _titleEditingController.text,
                           teaching: _teachingEditingController.text));
+                      _monthEditingController.clear();
+                      _titleEditingController.clear();
+                      _teachingEditingController.clear();
                       Navigator.of(context).pop();
                     }
                   },
@@ -359,12 +385,12 @@ class _AdminStatsState extends State<AdminStats> {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               content: Form(
-                  key: _reqFormKey,
+                  key: _reqFormKey2,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextFormField(
-                        controller: _titleEditingController,
+                        controller: _title2EditingController,
                         validator: (value) {
                           return value.isNotEmpty ? null : "Title required";
                         },
@@ -373,29 +399,49 @@ class _AdminStatsState extends State<AdminStats> {
                         ),
                       ),
                       TextFormField(
-                        controller: _monthEditingController,
+                        controller: _verseEditingController,
                         validator: (value) {
-                          return value.isNotEmpty ? null : "Month required";
+                          return value.isNotEmpty ? null : "Verse required";
                         },
                         decoration: InputDecoration(
-                          hintText: "e.g. January...",
+                          hintText: "Enter theme verse",
                         ),
                       ),
+                      DateTimePicker(
+                        type: DateTimePickerType.dateTimeSeparate,
+                        dateMask: 'd MMM, yyyy',
+                        initialValue: DateTime.now().toString(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                        icon: Icon(Icons.event),
+                        dateLabelText: 'Date',
+                        timeLabelText: "Hour",
+                        // Disable weekend days to select from the calendar
+                        onChanged: (val) => _verseDay = val,
+                        validator: (val) {
+                          print(val);
+                          return val.isNotEmpty
+                              ? null
+                              : "Please choose the study time";
+                        },
+                        onSaved: (val) => print(val),
+                      ),
                       TextFormField(
-                        controller: _teachingEditingController,
+                        controller: _teaching2EditingController,
                         validator: (value) {
                           return value.isNotEmpty
                               ? null
                               : "Enter/paste teaching";
                         },
                         minLines: 7,
+                        maxLines: 200,
                         decoration: InputDecoration(
                           hintText: "Write/paste teaching",
                         ),
                       ),
                     ],
                   )),
-              title: Text('Add Quartely Devotional'),
+              title: Text('Add Daily Study'),
               actions: <Widget>[
                 InkWell(
                   child: Container(
@@ -416,13 +462,80 @@ class _AdminStatsState extends State<AdminStats> {
                     ),
                   ),
                   onTap: () async {
-                    if (_reqFormKey.currentState.validate()) {
-                      await DbHelper.saveDevotional(Devotional(
-                          month: _monthEditingController.text,
-                          title: _titleEditingController.text,
-                          teaching: _teachingEditingController.text));
+                    if (_reqFormKey2.currentState.validate()) {
+                      await DbHelper.saveDailyStudy(
+                        DailyStudy(
+                            title: _title2EditingController.text,
+                            verse: _verseEditingController.text,
+                            date: _verseDay,
+                            teaching: _teaching2EditingController.text),
+                      );
+                      _title2EditingController.clear();
+                      _verseEditingController.clear();
+                      _teaching2EditingController.clear();
                       Navigator.of(context).pop();
                     }
+                  },
+                ),
+              ],
+            );
+          });
+        });
+  }
+
+  Future<void> incomingPayments() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("payments")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    final docs = snapshot.data.docs;
+                    return ListView.builder(
+                      itemCount: docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final payment = docs[index].data();
+                        return IncomingPayment(
+                            phone: payment['phone'],
+                            amount: payment['amount'],
+                            category: payment['category']);
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+              title: Text('Incoming payments'),
+              actions: <Widget>[
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Palette.darkBlue,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 13.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      'Close',
+                    ),
+                  ),
+                  onTap: () async {
+                    Navigator.of(context).pop();
                   },
                 ),
               ],

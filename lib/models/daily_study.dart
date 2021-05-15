@@ -4,5 +4,10 @@ class DailyStudy {
   final String verse;
   final String teaching;
 
-  DailyStudy(this.title, this.date, this.verse, this.teaching);
+  DailyStudy({
+    this.title,
+    this.date,
+    this.verse,
+    this.teaching,
+  });
 }

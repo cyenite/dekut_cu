@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
+import 'package:dekut_cu/models/payment.dart';
 
 class DbHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -31,7 +32,7 @@ class DbHelper {
     await _db.collection('payments').get().then((snap) => {
           paymentsSize = snap.size // will return the collection size
         });
-    await _db.collection('studies').get().then((snap) => {
+    await _db.collection('daily_studies').get().then((snap) => {
           studiesSize = snap.size // will return the collection size
         });
 
@@ -75,5 +76,14 @@ class DbHelper {
     } else {
       await _db.collection("daily_studies").add(devotionalData);
     }
+  }
+
+  static savePayment(Payment payment) async {
+    Map<String, dynamic> paymentData = {
+      "amount": payment.amount,
+      "category": payment.category,
+      "phone": payment.phoneNumber,
+    };
+    await _db.collection("payments").add(paymentData);
   }
 }
