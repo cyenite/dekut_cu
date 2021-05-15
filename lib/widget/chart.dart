@@ -44,11 +44,11 @@ LineChartData mainData() {
         getTitles: (value) {
           switch (value.toInt()) {
             case 1:
-              return '1k';
+              return '0.5k';
             case 3:
-              return '1.5k';
+              return '5k';
             case 5:
-              return '2k';
+              return '10k';
           }
           return '';
         },
@@ -66,13 +66,13 @@ LineChartData mainData() {
     lineBarsData: [
       LineChartBarData(
         spots: [
-          FlSpot(0, 3),
-          FlSpot(2.6, 2),
+          FlSpot(0, 0),
+          /*FlSpot(2.6, 2),
           FlSpot(4.9, 5),
           FlSpot(6.8, 3.1),
           FlSpot(8, 4),
           FlSpot(9.5, 3),
-          FlSpot(11, 4),
+          FlSpot(11, 4),*/
         ],
         isCurved: true,
         colors: gradientColors,

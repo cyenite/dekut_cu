@@ -1,9 +1,9 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:dekut_cu/pages/admin_analytics.dart';
 import 'package:dekut_cu/pages/daily_page.dart';
 import 'package:dekut_cu/pages/make_contribution.dart';
 import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/pages/profile_page.dart';
+import 'package:dekut_cu/pages/stats_page.dart';
 import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +25,8 @@ class _RootAppState extends State<RootApp> {
   List<Widget> pages = [
     DailyPage(),
     BudgetPage(),
-    AdminStats(),
+    StatsPage(),
+    //AdminStats(),
     ProfilePage(),
     CreatBudgetPage()
   ];

@@ -3,7 +3,6 @@ import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class StatsPage extends StatefulWidget {
   @override
@@ -66,7 +65,6 @@ class _StatsPageState extends State<StatsPage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(AntDesign.search1)
                     ],
                   ),
                   SizedBox(
@@ -166,7 +164,7 @@ class _StatsPageState extends State<StatsPage> {
                             height: 10,
                           ),
                           Text(
-                            "KES 2446.90",
+                            "Coming Soon...",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,

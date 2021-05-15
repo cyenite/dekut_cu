@@ -29,7 +29,7 @@ class MonthlyDevotion extends StatelessWidget {
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-              color: selected ? grey : white,
+              color: white,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
@@ -49,7 +49,7 @@ class MonthlyDevotion extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
-                    color: selected ? white : Palette.darkOrange,
+                    color: Palette.darkOrange,
                   ),
                 ),
                 SizedBox(
@@ -65,7 +65,7 @@ class MonthlyDevotion extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: selected ? white : Colors.black,
+                            color: Colors.black,
                           ),
                         ),
                         SizedBox(
@@ -78,9 +78,7 @@ class MonthlyDevotion extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 13,
-                                color: selected
-                                    ? Colors.blue
-                                    : Colors.blue.withOpacity(0.6)),
+                                color: Colors.blue.withOpacity(0.6)),
                           ),
                         ),
                       ],
