@@ -55,7 +55,7 @@ class _RootAppState extends State<RootApp> {
 
   @override
   Widget build(BuildContext context) {
-    user;
+    //FirebaseUser user;
     final litUser = context.getSignedInUser();
     litUser.when(
       (litUser) => user = litUser,

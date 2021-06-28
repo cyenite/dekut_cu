@@ -6,10 +6,10 @@ class AuthHelper extends GetxController {
   RxBool isAdmin = false.obs;
 
   static FirebaseFirestore _db = FirebaseFirestore.instance;
-  static saveAdminUser(User user) async {
+  static saveAdminUser(User user, String name, String email) async {
     Map<String, dynamic> userData = {
-      "name": user.displayName,
-      "email": user.email,
+      "name": name,
+      "email": email,
       "last_login": user.metadata.lastSignInTime.millisecondsSinceEpoch,
       "created_at": user.metadata.creationTime.millisecondsSinceEpoch,
       "role": "admin",
