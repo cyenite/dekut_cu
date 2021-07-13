@@ -38,7 +38,7 @@ dependencies:
   animations: any
   google_fonts: any
   font_awesome_flutter: any
-
+  rflutter_alert:
   date_time_picker: any
 
   firebase_core: ^0.5.0

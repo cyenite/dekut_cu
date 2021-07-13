@@ -6,7 +6,10 @@ class AuthHelper extends GetxController {
   RxBool isAdmin = false.obs;
 
   static FirebaseFirestore _db = FirebaseFirestore.instance;
-  static saveAdminUser(User user, String name, String email) async {
+  static saveAdminUser(String name, String email, String password) async {
+    UserCredential result = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    User user = result.user;
     Map<String, dynamic> userData = {
       "name": name,
       "email": email,
@@ -18,6 +21,7 @@ class AuthHelper extends GetxController {
     if ((await userRef.get()).exists) {
       await userRef.update({
         "last_login": user.metadata.lastSignInTime.millisecondsSinceEpoch,
+        "role": "admin",
       });
     } else {
       await _db.collection("users").doc(user.uid).set(userData);

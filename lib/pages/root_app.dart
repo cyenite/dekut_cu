@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/pages/daily_page.dart';
@@ -10,7 +12,9 @@ import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'admin_analytics.dart';
 
@@ -25,6 +29,7 @@ class RootApp extends StatefulWidget {
 
 class _RootAppState extends State<RootApp> {
   User user;
+
   int pageIndex = 0;
   List<Widget> pages = [
     DailyPage(),
@@ -42,9 +47,12 @@ class _RootAppState extends State<RootApp> {
     ContributionPage()
   ];
 
+
+
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
   }
 

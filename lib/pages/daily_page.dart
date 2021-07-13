@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/json/day_month.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/daily_devotion.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DailyPage extends StatefulWidget {
   @override
@@ -12,6 +17,80 @@ class DailyPage extends StatefulWidget {
 
 class _DailyPageState extends State<DailyPage> {
   int activeDay = 3;
+  User user1 = FirebaseAuth.instance.currentUser;
+
+  void _enterUserName() {
+    final _key = GlobalKey<FormState>();
+    String userName;
+    Alert(
+      context: context,
+      style: AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+      ),
+      title: "Username",
+      desc: "Enter your username to continue.",
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Form(
+            key: _key,
+            child: Column(
+              children: [
+                TextFormField(
+                  maxLines: 1,
+                  keyboardType: TextInputType.text,
+                  validator: (value) =>
+                      value.isEmpty ? 'Username can\'t be empty' : null,
+                  onSaved: (value) => userName = value,
+                  decoration: InputDecoration(
+                    hintText: 'Enter username...',
+                  ),
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      buttons: [
+        DialogButton(
+          color: Colors.green,
+          child: Text(
+            "SAVE",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            if (_key.currentState.validate()) {
+              _key.currentState.save();
+              user1.updateProfile(displayName: userName);
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user1.uid)
+                  .update({'name': userName}).then(
+                      (value) => print("User Updated"));
+              print('username : ' + userName);
+              Get.back();
+            }
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Timer(Duration(seconds: 2), () async {
+      if (user1.displayName == null) {
+        _enterUserName();
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

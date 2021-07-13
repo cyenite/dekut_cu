@@ -102,7 +102,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          image: NetworkImage(user.photoURL),
+                                          image: NetworkImage(user.photoURL !=
+                                                  null
+                                              ? user.photoURL
+                                              : "https://feedbackhall.com/uploads/user-icon.png"),
                                           fit: BoxFit.cover)),
                                 ),
                               )
@@ -116,7 +119,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user.displayName,
+                              user.displayName != null
+                                  ? user.displayName
+                                  : "No Username",
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,

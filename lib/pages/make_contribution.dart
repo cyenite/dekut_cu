@@ -38,14 +38,14 @@ class _ContributionPageState extends State<ContributionPage> {
   makePayment() async {
     final Flutterwave flutterwave = Flutterwave.forUIPayment(
         context: this.context,
-        encryptionKey: "bccd0579b15c717fe038acbf",
-        publicKey: "FLWPUBK-b239cd3d22a82875d1c6e99f688c4b56-X",
+        encryptionKey: "FLWSECK_TEST9c64f36a860d",
+        publicKey: "FLWPUBK_TEST-d7d2ef91cdfa4ce42c7aed94bafc7ffb-X",
         currency: "KES",
         amount: _amount.text,
         email: user.email,
         fullName: _phoneNumber.text,
         txRef: selectedCategory,
-        isDebugMode: false,
+        isDebugMode: true,
         phoneNumber: _phoneNumber.text,
         acceptCardPayment: false,
         acceptUSSDPayment: false,

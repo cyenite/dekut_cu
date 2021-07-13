@@ -35,6 +35,8 @@ class _AdminStatsState extends State<AdminStats> {
       TextEditingController();
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _emailEditingController = TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
 
   int activeDay = 3;
   String _verseDay =
@@ -318,6 +320,7 @@ class _AdminStatsState extends State<AdminStats> {
                     if (snapshot.hasData && snapshot != null) {
                       final docs = snapshot.data.docs;
                       return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           final user = docs[index].data();
@@ -371,6 +374,15 @@ class _AdminStatsState extends State<AdminStats> {
                           hintText: "Enter email",
                         ),
                       ),
+                      TextFormField(
+                        controller: _passwordEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Password required";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                        ),
+                      ),
                     ],
                   )),
               title: Text('Add System Administrator'),
@@ -379,7 +391,7 @@ class _AdminStatsState extends State<AdminStats> {
                   child: Container(
                     padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: primary,
                       borderRadius: BorderRadius.circular(10.0),
                       boxShadow: [
                         BoxShadow(
@@ -389,21 +401,21 @@ class _AdminStatsState extends State<AdminStats> {
                         ),
                       ],
                     ),
-                    child: Text(
-                      'Submit',
-                    ),
+                    child:
+                        Text('Submit', style: TextStyle(color: Colors.white)),
                   ),
                   onTap: () async {
-                    User user ;
+                    User user;
                     if (_nameEditingController.text != null &&
                         _emailEditingController.text != null) {
                       print(user);
                       await AuthHelper.saveAdminUser(
-                          user,
                           _nameEditingController.text,
-                          _emailEditingController.text);
+                          _emailEditingController.text,
+                          _passwordEditingController.text);
                       _nameEditingController.clear();
                       _emailEditingController.clear();
+                      _passwordEditingController.clear();
                       Navigator.of(context).pop();
                     }
                   },
