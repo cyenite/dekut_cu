@@ -9,6 +9,7 @@ import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'events_page.dart';
+import 'ministry_registration.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -240,41 +241,46 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      color: primary,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Ministries',
-                          style: TextStyle(
-                              color: Colors.white70,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Register',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(MinistryRegistrationPage());
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: primary,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Ministries',
+                            style: TextStyle(
                                 color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                  color: Colors.white70,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 10.0),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: Colors.white70,
-                            )
-                          ],
-                        ),
-                      ],
+                              SizedBox(width: 10.0),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Colors.white70,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   GestureDetector(
