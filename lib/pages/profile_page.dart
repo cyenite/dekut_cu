@@ -1,4 +1,3 @@
-import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/pages/auth/auth.dart';
 import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/theme/colors.dart';
@@ -8,6 +7,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
+import 'events_page.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -214,37 +215,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     height: 50.0,
                     decoration: BoxDecoration(
-                        color: Color(0xFF252c34),
+                        color: primary,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
                             topRight: Radius.circular(20))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Phone number',
-                          style: TextStyle(
-                              color: Colors.white70,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                        ),
-                        Text(
-                          user.phoneNumber != null ? user.phoneNumber : 'null',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF252c34),
-                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -258,6 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text(
                           user.email == null ? '' : user.email,
                           style: TextStyle(
+                            color: Colors.white70,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                           ),
@@ -269,13 +244,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     height: 50.0,
                     decoration: BoxDecoration(
-                      color: Color(0xFF252c34),
+                      color: primary,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Car brand',
+                          'Ministries',
                           style: TextStyle(
                               color: Colors.white70,
                               fontWeight: FontWeight.bold,
@@ -284,64 +259,73 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           children: [
                             Text(
-                              'Tesla',
+                              'Register',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16.0,
+                                color: Colors.white70,
                               ),
                             ),
                             SizedBox(width: 10.0),
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 16,
+                              color: Colors.white70,
                             )
                           ],
                         ),
                       ],
                     ),
                   ),
-                  ClipRect(
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF252c34),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Car model',
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Model S',
-                                style: TextStyle(
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(EventPage());
+                    },
+                    child: ClipRect(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 20.0),
+                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          color: primary,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0.0, 1.0), //(x,y)
+                              blurRadius: 6.0,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Events',
+                              style: TextStyle(
+                                  color: Colors.white70,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
+                                  fontSize: 16.0),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Open',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                              )
-                            ],
-                          ),
-                        ],
+                                SizedBox(width: 10.0),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 16,
+                                  color: Colors.white70,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -359,7 +343,7 @@ class _ProfilePageState extends State<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Email",
+                  "Contacts:",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 13,

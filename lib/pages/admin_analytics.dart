@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:dekut_cu/config/palette.dart';
@@ -12,20 +14,19 @@ import 'package:dekut_cu/widget/analytic_container.dart';
 import 'package:dekut_cu/widget/content_management_container.dart';
 import 'package:dekut_cu/widget/incoming_payment.dart';
 import 'package:dekut_cu/widget/user_container.dart';
-import 'package:firebase/firebase.dart' hide User;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker_web/image_picker_web.dart';
-import 'package:mime_type/mime_type.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _titleEditingController = TextEditingController();
 final TextEditingController _descriptionEditingController =
     TextEditingController();
 String _imageName = '';
-MediaInfo mediaData;
 bool _isFileUploaded = false;
 String _imageUrl = '';
 String _eventDate;
@@ -52,12 +53,13 @@ class _AdminStatsState extends State<AdminStats> {
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _passwordEditingController =
       TextEditingController();
-
+  final ImagePicker _picker = ImagePicker();
   int activeDay = 3;
   String _verseDay =
       DateFormat('dd/MM/yyyy  kk:mm').format(DateTime.now()).toString();
-
   bool showAvg = false;
+  File _imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,44 +69,47 @@ class _AdminStatsState extends State<AdminStats> {
   }
 
   Future getImage() async {
-    mediaData = await ImagePickerWeb.getImageInfo;
+    //mediaData = await ImagePickerWeb.getImageInfo;
     /*String mimeType = mime(Path.basename(mediaData.fileName));
     html.File mediaFile =
     new html.File(mediaData.data, mediaData.fileName, {'type': mimeType});*/
     //File imageFile = await ImagePickerWeb.getImage(outputType: ImageType.file);
+    final image = await _picker.getImage(source: ImageSource.gallery);
 
-    if (mediaData != null) {
+    if (image != null) {
       setState(() {
         _isFileUploaded = true;
-        //_image = imageFile;
+        _imageFile = File(image.path);
       });
     } else {
       print('No image selected.');
     }
   }
 
-  Future<Uri> uploadFile1(
-      MediaInfo mediaInfo, String ref, String fileName) async {
+  uploadFile1() async {
+    FirebaseStorage _storage = FirebaseStorage.instance;
     try {
-      String mimeType = mime(mediaInfo.fileName);
-      var metaData = UploadMetadata(contentType: mimeType);
-      StorageReference storageReference = storage().ref(ref).child(fileName);
+      StorageReference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('images/${Path.basename(_imageFile.path)}}');
+      StorageUploadTask uploadTask = storageReference.putFile(_imageFile);
+      await uploadTask.onComplete;
+      print('File Uploaded');
+      storageReference.getDownloadURL().then((fileURL) {
+        setState(() {
+          _imageUrl = fileURL.toString();
+        });
+      });
 
-      UploadTaskSnapshot uploadTaskSnapshot =
-          await storageReference.put(mediaInfo.data, metaData).future;
-      Uri imageUri = await uploadTaskSnapshot.ref.getDownloadURL();
-      print('Download URL: $imageUri');
       await DbHelper.addEvent(
         Event(
-            imageUrl: imageUri.toString(),
+            imageUrl: _imageUrl,
             title: _titleEditingController.text,
             description: _descriptionEditingController.text,
             date: _eventDate),
       );
-      return imageUri;
     } catch (e) {
       print('File Upload Error: $e');
-      return null;
     }
   }
 
@@ -143,6 +148,12 @@ class _AdminStatsState extends State<AdminStats> {
                             addAdminDialog();
                           },
                           child: Icon(AntDesign.adduser),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            addEventDialog();
+                          },
+                          child: Icon(AntDesign.addfile),
                         ),
                       ],
                     ),
@@ -809,15 +820,17 @@ class _AdminStatsState extends State<AdminStats> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                _isFileUploaded
-                                    ? mediaData.fileName
-                                    : 'Upload a 1x1 image',
-                                style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 11.0,
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _isFileUploaded
+                                      ? _imageFile.path
+                                      : 'Upload a 1x1 image',
+                                  style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11.0,
+                                  ),
                                 ),
                               ),
                             ),
@@ -832,8 +845,9 @@ class _AdminStatsState extends State<AdminStats> {
                   child: Text('Submit'),
                   onTap: () {
                     if (_formKey.currentState.validate()) {
-                      uploadFile1(mediaData, 'images', mediaData.fileName)
-                          .toString();
+                      uploadFile1();
+                      _titleEditingController.clear();
+                      _descriptionEditingController.clear();
                       Navigator.of(context).pop();
                     }
                   },

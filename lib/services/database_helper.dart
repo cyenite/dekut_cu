@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
 import 'package:dekut_cu/models/event.dart';
-import 'package:dekut_cu/models/payms/event.dart';
+import 'package:dekut_cu/models/payment.dart';
 
 class DbHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;

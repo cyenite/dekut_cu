@@ -1,37 +1,55 @@
+import 'package:dekut_cu/models/event.dart';
+import 'package:dekut_cu/pages/event_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomEventCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String date;
+  final Event event;
 
-  CustomEventCard({this.date, this.description, this.title});
+  CustomEventCard({this.event});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Text(
-              title,
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              description,
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-          ]),
-          Text(
-            date,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
-          )
-        ],
+    return GestureDetector(
+      onTap: () {
+        print(event.imageUrl);
+        Get.to(EventDetailPage(
+          event: event,
+        ));
+      },
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          height: 70,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      event.title,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      event.description,
+                      maxLines: 4,
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ]),
+              Text(
+                event.date,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

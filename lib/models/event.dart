@@ -10,5 +10,6 @@ class Event {
     this.title = json['title'];
     this.description = json['description'];
     this.date = json['date'];
+    this.imageUrl = json['imageUrl'];
   }
 }

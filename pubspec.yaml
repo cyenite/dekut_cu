@@ -42,14 +42,15 @@ dependencies:
   date_time_picker: any
   image_picker_web: any
   mime_type: ^1.0.0
+  cached_network_image: ^2.2.0+1
 
-  firebase: any
   firebase_core: ^0.5.0
   cloud_firestore:
   get: any
   mpesa: any
   flutterwave: any
-  image_picker: any
+  image_picker:
+  firebase_storage: 4.0.0
 
 dev_dependencies:
   flutter_test:
