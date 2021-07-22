@@ -4,6 +4,7 @@ import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/json/day_month.dart';
 import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
+import 'package:dekut_cu/models/event.dart';
 import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
@@ -11,9 +12,23 @@ import 'package:dekut_cu/widget/analytic_container.dart';
 import 'package:dekut_cu/widget/content_management_container.dart';
 import 'package:dekut_cu/widget/incoming_payment.dart';
 import 'package:dekut_cu/widget/user_container.dart';
+import 'package:firebase/firebase.dart' hide User;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+import 'package:mime_type/mime_type.dart';
+
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final TextEditingController _titleEditingController = TextEditingController();
+final TextEditingController _descriptionEditingController =
+    TextEditingController();
+String _imageName = '';
+MediaInfo mediaData;
+bool _isFileUploaded = false;
+String _imageUrl = '';
+String _eventDate;
 
 class AdminStats extends StatefulWidget {
   @override
@@ -49,6 +64,48 @@ class _AdminStatsState extends State<AdminStats> {
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(),
     );
+  }
+
+  Future getImage() async {
+    mediaData = await ImagePickerWeb.getImageInfo;
+    /*String mimeType = mime(Path.basename(mediaData.fileName));
+    html.File mediaFile =
+    new html.File(mediaData.data, mediaData.fileName, {'type': mimeType});*/
+    //File imageFile = await ImagePickerWeb.getImage(outputType: ImageType.file);
+
+    if (mediaData != null) {
+      setState(() {
+        _isFileUploaded = true;
+        //_image = imageFile;
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future<Uri> uploadFile1(
+      MediaInfo mediaInfo, String ref, String fileName) async {
+    try {
+      String mimeType = mime(mediaInfo.fileName);
+      var metaData = UploadMetadata(contentType: mimeType);
+      StorageReference storageReference = storage().ref(ref).child(fileName);
+
+      UploadTaskSnapshot uploadTaskSnapshot =
+          await storageReference.put(mediaInfo.data, metaData).future;
+      Uri imageUri = await uploadTaskSnapshot.ref.getDownloadURL();
+      print('Download URL: $imageUri');
+      await DbHelper.addEvent(
+        Event(
+            imageUrl: imageUri.toString(),
+            title: _titleEditingController.text,
+            description: _descriptionEditingController.text,
+            date: _eventDate),
+      );
+      return imageUri;
+    } catch (e) {
+      print('File Upload Error: $e');
+      return null;
+    }
   }
 
   Widget getBody() {
@@ -621,8 +678,11 @@ class _AdminStatsState extends State<AdminStats> {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               content: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection("payments").snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                stream: FirebaseFirestore.instance
+                    .collection("payments")
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     final docs = snapshot.data.docs;
                     return ListView.builder(
@@ -665,6 +725,117 @@ class _AdminStatsState extends State<AdminStats> {
                   ),
                   onTap: () async {
                     Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+        });
+  }
+
+  Future<void> addEventDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _titleEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Enter title!";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Title of Event",
+                          hintStyle: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _descriptionEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Enter description!";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Enter description of event",
+                          hintStyle: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+                      DateTimePicker(
+                        type: DateTimePickerType.dateTimeSeparate,
+                        dateMask: 'd MMM, yyyy',
+                        initialValue: DateTime.now().toString(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                        icon: Icon(Icons.event),
+                        dateLabelText: 'Date',
+                        timeLabelText: "Hour",
+                        // Disable weekend days to select from the calendar
+                        onChanged: (val) => _eventDate = val,
+                        validator: (val) {
+                          print(val);
+                          return null;
+                        },
+                        onSaved: (val) => print(val),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 30, left: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton.icon(
+                              onPressed: () {
+                                getImage();
+                              },
+                              icon: Icon(
+                                Icons.file_upload,
+                                color: Colors.grey,
+                              ),
+                              label: Text(
+                                'Upload Cover',
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _isFileUploaded
+                                    ? mediaData.fileName
+                                    : 'Upload a 1x1 image',
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+              title: Text('Add Event'),
+              actions: <Widget>[
+                InkWell(
+                  child: Text('Submit'),
+                  onTap: () {
+                    if (_formKey.currentState.validate()) {
+                      uploadFile1(mediaData, 'images', mediaData.fileName)
+                          .toString();
+                      Navigator.of(context).pop();
+                    }
                   },
                 ),
               ],

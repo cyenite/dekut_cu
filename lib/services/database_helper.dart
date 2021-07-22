@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
-import 'package:dekut_cu/models/payment.dart';
+import 'package:dekut_cu/models/event.dart';
+import 'package:dekut_cu/models/payms/event.dart';
 
 class DbHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -85,5 +86,16 @@ class DbHelper {
       "phone": payment.phoneNumber,
     };
     await _db.collection("payments").add(paymentData);
+  }
+
+  static addEvent(Event event) async {
+    Map<String, dynamic> eventData = {
+      "title": event.title,
+      "description": event.description,
+      "date": event.date,
+      "imageUrl": event.imageUrl,
+    };
+
+    await _db.collection("events").doc(event.title).set(eventData);
   }
 }

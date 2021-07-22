@@ -1,3 +1,4 @@
+import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/pages/auth/auth.dart';
 import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/theme/colors.dart';
@@ -207,7 +208,144 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(height: 50),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                        color: Color(0xFF252c34),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Phone number',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                        Text(
+                          user.phoneNumber != null ? user.phoneNumber : 'null',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF252c34),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Email',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                        Text(
+                          user.email == null ? '' : user.email,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF252c34),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Car brand',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Tesla',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(width: 10.0),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  ClipRect(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 20.0),
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF252c34),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 1.0), //(x,y)
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Car model',
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Model S',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              SizedBox(width: 10.0),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
