@@ -621,14 +621,12 @@ class _AdminStatsState extends State<AdminStats> {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               content: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection("payments")
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                stream: FirebaseFirestore.instance.collection("payments").snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     final docs = snapshot.data.docs;
                     return ListView.builder(
+                      reverse: true,
                       itemCount: docs.length,
                       itemBuilder: (BuildContext context, int index) {
                         final payment = docs[index].data();

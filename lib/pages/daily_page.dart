@@ -196,8 +196,7 @@ class _DailyPageState extends State<DailyPage> {
               stream: FirebaseFirestore.instance
                   .collection("daily_studies")
                   .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
                   final docs = snapshot.data.docs;
                   return ListView.builder(

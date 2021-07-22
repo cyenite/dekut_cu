@@ -76,6 +76,7 @@ class _ContributionPageState extends State<ContributionPage> {
           // provide value to customer
         } else {
           // check message
+          print('This is the response message:');
           print(response.message);
 
           // check status
