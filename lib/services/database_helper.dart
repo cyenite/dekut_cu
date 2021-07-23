@@ -98,4 +98,13 @@ class DbHelper {
 
     await _db.collection("events").doc(event.title).set(eventData);
   }
+
+  static Future<String> getUserMinistry(String userID) async {
+    String ministry;
+    await _db.collection('users').doc(userID).get().then((value) {
+      ministry = value.data()['ministry'];
+    });
+
+    return ministry;
+  }
 }

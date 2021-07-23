@@ -7,9 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 import 'config/palette.dart';
+import 'controllers/ministry_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(MinistryController());
   await Firebase.initializeApp();
   runApp(MyApp());
 }

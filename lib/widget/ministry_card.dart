@@ -1,11 +1,47 @@
+import 'package:dekut_cu/controllers/ministry_controller.dart';
+import 'package:dekut_cu/services/auth_helper.dart';
+import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
-class MinistryCard extends StatelessWidget {
+class MinistryCard extends StatefulWidget {
   final String title;
   final String description;
+  bool status;
+  Function onClick;
 
-  MinistryCard({this.description, this.title});
+  MinistryCard({this.description, this.title, this.status, this.onClick});
+
+  @override
+  _MinistryCardState createState() => _MinistryCardState();
+}
+
+class _MinistryCardState extends State<MinistryCard> {
+  MinistryController controller = Get.find<MinistryController>();
+  User user;
+  String userMinistry;
+
+  @override
+  void initState() {
+    final litUser = context.getSignedInUser();
+    litUser.when(
+          (litUser) => user = litUser,
+      empty: () {},
+      initializing: () {},
+    );
+    updateMinistry();
+    super.initState();
+  }
+
+  updateMinistry() {
+    setState(() {
+      DbHelper.getUserMinistry(user.uid)
+          .then((value) => userMinistry = value.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,38 +50,63 @@ class MinistryCard extends StatelessWidget {
       child: Container(
         height: 70,
         padding: EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        child: Obx(() {
+          return Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      widget.description,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ]),
+              widget.title == controller.userMinistry.toString()
+                  ? Center(
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white10,
                   ),
-                  Text(
-                    description,
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.orange,
                   ),
-                ]),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: primary,
+                ),
+              )
+                  : GestureDetector(
+                onTap: () {
+                  setState(() {
+                    AuthHelper.saveUserMinistry(user, widget.title);
+                    updateMinistry();
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: primary,
+                  ),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
-              child: Text(
-                'Register',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }
