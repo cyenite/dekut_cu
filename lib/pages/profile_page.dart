@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/pages/auth/auth.dart';
 import 'package:dekut_cu/pages/monthly_page.dart';
 import 'package:dekut_cu/theme/colors.dart';
+import 'package:dekut_cu/widget/contact_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -39,223 +41,273 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget getBody(User user) {
     var size = MediaQuery.of(context).size;
     _email.text = user.email;
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(color: white, boxShadow: [
-              BoxShadow(
-                color: grey.withOpacity(0.01),
-                spreadRadius: 10,
-                blurRadius: 3,
-                // changes position of shadow
-              ),
-            ]),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 60, right: 20, left: 20, bottom: 25),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Profile",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: black),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          context.signOut();
-                          Get.off(AuthScreen());
-                        },
-                        child: Icon(AntDesign.logout),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: (size.width - 40) * 0.4,
-                        child: Container(
-                          child: Stack(
-                            children: [
-                              RotatedBox(
-                                quarterTurns: -2,
-                                child: CircularPercentIndicator(
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    backgroundColor: grey.withOpacity(0.3),
-                                    radius: 110.0,
-                                    lineWidth: 6.0,
-                                    percent: 0.53,
-                                    progressColor: primary),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(color: white, boxShadow: [
+            BoxShadow(
+              color: grey.withOpacity(0.01),
+              spreadRadius: 10,
+              blurRadius: 3,
+              // changes position of shadow
+            ),
+          ]),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: 60, right: 20, left: 20, bottom: 25),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Profile",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: black),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.signOut();
+                        Get.off(AuthScreen());
+                      },
+                      child: Icon(AntDesign.logout),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: (size.width - 40) * 0.4,
+                      child: Container(
+                        child: Stack(
+                          children: [
+                            RotatedBox(
+                              quarterTurns: -2,
+                              child: CircularPercentIndicator(
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  backgroundColor: grey.withOpacity(0.3),
+                                  radius: 110.0,
+                                  lineWidth: 6.0,
+                                  percent: 0.53,
+                                  progressColor: primary),
+                            ),
+                            Positioned(
+                              top: 16,
+                              left: 13,
+                              child: Container(
+                                width: 85,
+                                height: 85,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(user.photoURL !=
+                                                null
+                                            ? user.photoURL
+                                            : "https://feedbackhall.com/uploads/user-icon.png"),
+                                        fit: BoxFit.cover)),
                               ),
-                              Positioned(
-                                top: 16,
-                                left: 13,
-                                child: Container(
-                                  width: 85,
-                                  height: 85,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(user.photoURL !=
-                                                  null
-                                              ? user.photoURL
-                                              : "https://feedbackhall.com/uploads/user-icon.png"),
-                                          fit: BoxFit.cover)),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
-                      Container(
-                        width: (size.width - 40) * 0.6,
-                        child: Column(
+                    ),
+                    Container(
+                      width: (size.width - 40) * 0.6,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.displayName != null
+                                ? user.displayName
+                                : "No Username",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: black),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Email verified',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: black.withOpacity(0.4)),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: primary,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: primary.withOpacity(0.01),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 25, bottom: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user.displayName != null
-                                  ? user.displayName
-                                  : "No Username",
+                              "Completed Devotionals",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: black),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  color: white),
                             ),
                             SizedBox(
                               height: 10,
                             ),
                             Text(
-                              'Email verified',
+                              "Coming soon",
                               style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: black.withOpacity(0.4)),
+                                  fontWeight: FontWeight.w100,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 20,
+                                  color: white),
                             ),
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: primary,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: primary.withOpacity(0.01),
-                            spreadRadius: 10,
-                            blurRadius: 3,
-                            // changes position of shadow
-                          ),
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20, right: 20, top: 25, bottom: 25),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Completed Devotionals",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    color: white),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Coming soon",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w100,
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 20,
-                                    color: white),
-                              ),
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(DevotionalsPage());
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: white)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(13.0),
-                                child: Text(
-                                  "Continue",
-                                  style: TextStyle(color: white),
-                                ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(DevotionalsPage());
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: white)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(13.0),
+                              child: Text(
+                                "Continue",
+                                style: TextStyle(color: white),
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 50),
-                  Container(
-                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                        color: primary,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                              color: Colors.white70,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                        ),
-                        Text(
-                          user.email == null ? '' : user.email,
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
                           ),
                         )
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(MinistryRegistrationPage());
-                    },
+                ),
+                SizedBox(height: 50),
+                Container(
+                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                      color: primary,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Email',
+                        style: TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
+                      ),
+                      Text(
+                        user.email == null ? '' : user.email,
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(MinistryRegistrationPage());
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      color: primary,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Ministries',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Register',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: Colors.white70,
+                              ),
+                            ),
+                            SizedBox(width: 10.0),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: Colors.white70,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(EventPage());
+                  },
+                  child: ClipRect(
                     child: Container(
+                      margin: EdgeInsets.only(bottom: 20.0),
                       padding: EdgeInsets.only(left: 20.0, right: 20.0),
                       height: 50.0,
                       decoration: BoxDecoration(
                         color: primary,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 1.0), //(x,y)
+                            blurRadius: 6.0,
+                          ),
+                        ],
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Ministries',
+                            'Events',
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontWeight: FontWeight.bold,
@@ -264,11 +316,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           Row(
                             children: [
                               Text(
-                                'Register',
+                                'Open',
                                 style: TextStyle(
+                                  color: Colors.white70,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,
-                                  color: Colors.white70,
                                 ),
                               ),
                               SizedBox(width: 10.0),
@@ -283,129 +335,50 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(EventPage());
-                    },
-                    child: ClipRect(
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 20.0),
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        height: 50.0,
-                        decoration: BoxDecoration(
-                          color: primary,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(0.0, 1.0), //(x,y)
-                              blurRadius: 6.0,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Events',
-                              style: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Open',
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                                SizedBox(width: 10.0),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16,
-                                  color: Colors.white70,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Contacts:",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: Color(0xff67727d)),
                 ),
-                TextField(
-                  readOnly: true,
-                  controller: _email,
-                  cursorColor: black,
-                  style: TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.bold, color: black),
-                  decoration: InputDecoration(
-                      hintText: "Email", border: InputBorder.none),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                /*   Text(
-                  "Date of birth",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: Color(0xff67727d)),
-                ),
-                TextField(
-                  controller: dateOfBirth,
-                  cursorColor: black,
-                  style: TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.bold, color: black),
-                  decoration: InputDecoration(
-                      hintText: "Date of birth", border: InputBorder.none),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Date of birth",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: Color(0xff67727d)),
-                ),
-                TextField(
-                  obscureText: true,
-                  controller: password,
-                  cursorColor: black,
-                  style: TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.bold, color: black),
-                  decoration: InputDecoration(
-                      hintText: "Password", border: InputBorder.none),
-                ),*/
+                SizedBox(height: 10),
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            "Contact Us:",
+            style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 16,
+                color: Color(0xff67727d)),
+          ),
+        ),
+        Flexible(
+          child: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection("contacts").snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData && snapshot != null) {
+                final docs = snapshot.data.docs;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final contact = docs[index].data();
+                    print(contact);
+                    return ContactCard(
+                        phone: contact['phone'], name: contact['name']);
+                  },
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }
