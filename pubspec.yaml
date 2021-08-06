@@ -51,6 +51,7 @@ dependencies:
   flutterwave: any
   image_picker:
   firebase_storage: 4.0.0
+  url_launcher: ^6.0.5
 
 dev_dependencies:
   flutter_test:

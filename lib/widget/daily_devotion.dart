@@ -49,10 +49,9 @@ class DailyDevotion extends StatelessWidget {
                           color: grey.withOpacity(0.1),
                         ),
                         child: Center(
-                          child: Image.asset(
-                            "assets/images/bank.png",
-                            width: 30,
-                            height: 30,
+                          child: Icon(
+                            Icons.book_outlined,
+                            color: Colors.blue,
                           ),
                         ),
                       ),

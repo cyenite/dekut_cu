@@ -1,10 +1,8 @@
-import 'package:dekut_cu/controllers/ministry_controller.dart';
 import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class MinistryCard extends StatefulWidget {
@@ -20,7 +18,6 @@ class MinistryCard extends StatefulWidget {
 }
 
 class _MinistryCardState extends State<MinistryCard> {
-  MinistryController controller = Get.find<MinistryController>();
   User user;
   String userMinistry;
 
@@ -28,7 +25,7 @@ class _MinistryCardState extends State<MinistryCard> {
   void initState() {
     final litUser = context.getSignedInUser();
     litUser.when(
-          (litUser) => user = litUser,
+      (litUser) => user = litUser,
       empty: () {},
       initializing: () {},
     );
@@ -50,63 +47,60 @@ class _MinistryCardState extends State<MinistryCard> {
       child: Container(
         height: 70,
         padding: EdgeInsets.all(10.0),
-        child: Obx(() {
-          return Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.title,
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget.description,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                ]),
+            widget.title == userMinistry
+                ? Center(
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white10,
+                      ),
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.orange,
+                      ),
                     ),
-                    Text(
-                      widget.description,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                  )
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        AuthHelper.saveUserMinistry(user, widget.title);
+                        updateMinistry();
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: primary,
+                      ),
+                      child: Text(
+                        'Register',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ]),
-              widget.title == controller.userMinistry.toString()
-                  ? Center(
-                child: Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.white10,
                   ),
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.orange,
-                  ),
-                ),
-              )
-                  : GestureDetector(
-                onTap: () {
-                  setState(() {
-                    AuthHelper.saveUserMinistry(user, widget.title);
-                    updateMinistry();
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: primary,
-                  ),
-                  child: Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          );
-        }),
+          ],
+        ),
       ),
     );
   }

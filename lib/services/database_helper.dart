@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
 import 'package:dekut_cu/models/event.dart';
+import 'package:dekut_cu/models/inventory.dart';
 import 'package:dekut_cu/models/payment.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DbHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -24,7 +26,11 @@ class DbHelper {
     int devotionalsSize = 0;
     int paymentsSize = 0;
     int studiesSize = 0;
+    int inventorySize = 0;
     await _db.collection('devotionals').get().then((snap) => {
+          devotionalsSize = snap.size // will return the collection size
+        });
+    await _db.collection('inventory').get().then((snap) => {
           devotionalsSize = snap.size // will return the collection size
         });
     await _db.collection('users').get().then((snap) => {
@@ -42,6 +48,7 @@ class DbHelper {
       'userCount': usersSize,
       'paymentCount': paymentsSize,
       'studyCount': studiesSize,
+      'inventoryCount': inventorySize,
     };
     return countMap;
   }
@@ -94,9 +101,26 @@ class DbHelper {
       "description": event.description,
       "date": event.date,
       "imageUrl": event.imageUrl,
+      "attendees": [],
     };
 
     await _db.collection("events").doc(event.title).set(eventData);
+  }
+
+  static registerForEvent(String title, User user) async {
+    Map<String, dynamic> data = {
+      "attendees": FieldValue.arrayUnion([user.email]),
+    };
+    await _db.collection("events").doc(title).update(data);
+  }
+
+  static addContact(String name, String phone) async {
+    Map<String, dynamic> contactData = {
+      "name": name,
+      "phone": phone,
+    };
+
+    await _db.collection("contacts").doc(name).set(contactData);
   }
 
   static Future<String> getUserMinistry(String userID) async {
@@ -106,5 +130,15 @@ class DbHelper {
     });
 
     return ministry;
+  }
+
+  static addInventory(Inventory inventory) async {
+    Map<String, dynamic> inventData = {
+      "name": inventory.name,
+      "state": inventory.state,
+      "quantity": inventory.quantity,
+    };
+
+    await _db.collection("inventory").doc(inventory.name).set(inventData);
   }
 }

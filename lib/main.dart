@@ -11,7 +11,6 @@ import 'controllers/ministry_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(MinistryController());
   await Firebase.initializeApp();
   runApp(MyApp());
 }

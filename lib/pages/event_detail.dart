@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dekut_cu/models/event.dart';
+import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class EventDetailPage extends StatelessWidget {
   final Event event;
@@ -10,6 +13,14 @@ class EventDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user;
+
+    final litUser = context.getSignedInUser();
+    litUser.when(
+      (litUser) => user = litUser,
+      empty: () {},
+      initializing: () {},
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -69,18 +80,30 @@ class EventDetailPage extends StatelessWidget {
                               onPressed: () => Navigator.pop(context),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: primary,
-                            ),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.bookmark_border,
-                                color: Colors.white,
+                          GestureDetector(
+                            onTap: () async {
+                              await DbHelper.registerForEvent(
+                                  event.title, user);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: primary,
                               ),
-                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                'Attend',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ), /*IconButton(
+                                icon: Icon(
+                                  Icons.bookmark_border,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                              ),*/
                             ),
                           )
                         ],

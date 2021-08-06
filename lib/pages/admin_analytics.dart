@@ -18,9 +18,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
+
+import 'inventory_page.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _titleEditingController = TextEditingController();
@@ -53,6 +56,10 @@ class _AdminStatsState extends State<AdminStats> {
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _passwordEditingController =
       TextEditingController();
+  final TextEditingController _contactNameEditingController =
+      TextEditingController();
+  final TextEditingController _contactPhoneEditingController =
+      TextEditingController();
   final ImagePicker _picker = ImagePicker();
   int activeDay = 3;
   String _verseDay =
@@ -80,10 +87,28 @@ class _AdminStatsState extends State<AdminStats> {
       setState(() {
         _isFileUploaded = true;
         _imageFile = File(image.path);
+        print(_imageFile);
+        uploadFile1();
       });
     } else {
       print('No image selected.');
     }
+  }
+
+  addEvent() async {
+    await DbHelper.addEvent(
+      Event(
+          imageUrl: _imageUrl,
+          title: _titleEditingController.text,
+          description: _descriptionEditingController.text,
+          date: _eventDate),
+    );
+    _isFileUploaded = false;
+  }
+
+  addContact() async {
+    await DbHelper.addContact(_contactNameEditingController.text,
+        _contactPhoneEditingController.text);
   }
 
   uploadFile1() async {
@@ -98,16 +123,9 @@ class _AdminStatsState extends State<AdminStats> {
       storageReference.getDownloadURL().then((fileURL) {
         setState(() {
           _imageUrl = fileURL.toString();
+          print(_imageUrl);
         });
       });
-
-      await DbHelper.addEvent(
-        Event(
-            imageUrl: _imageUrl,
-            title: _titleEditingController.text,
-            description: _descriptionEditingController.text,
-            date: _eventDate),
-      );
     } catch (e) {
       print('File Upload Error: $e');
     }
@@ -154,6 +172,12 @@ class _AdminStatsState extends State<AdminStats> {
                             addEventDialog();
                           },
                           child: Icon(AntDesign.addfile),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            addContactDialog();
+                          },
+                          child: Icon(AntDesign.contacts),
                         ),
                       ],
                     ),
@@ -344,6 +368,25 @@ class _AdminStatsState extends State<AdminStats> {
                               color: Colors.deepOrange,
                               detail: snapshot.data['studyCount'].toString(),
                               label: 'Total Bible Studies',
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(InventoryPage());
+                              },
+                              child: AnalyticContainer(
+                                color: Colors.blue,
+                                detail:
+                                    snapshot.data['inventoryCount'].toString(),
+                                label: 'Inventory Page',
+                              ),
                             ),
                           ],
                         ),
@@ -751,103 +794,172 @@ class _AdminStatsState extends State<AdminStats> {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               content: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        controller: _titleEditingController,
-                        validator: (value) {
-                          return value.isNotEmpty ? null : "Enter title!";
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Title of Event",
-                          hintStyle: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
-                          ),
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: _titleEditingController,
+                      validator: (value) {
+                        return value.isNotEmpty ? null : "Enter title!";
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Title of Event",
+                        hintStyle: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.0,
                         ),
                       ),
-                      TextFormField(
-                        controller: _descriptionEditingController,
-                        validator: (value) {
-                          return value.isNotEmpty ? null : "Enter description!";
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Enter description of event",
-                          hintStyle: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
-                          ),
+                    ),
+                    TextFormField(
+                      controller: _descriptionEditingController,
+                      validator: (value) {
+                        return value.isNotEmpty ? null : "Enter description!";
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Enter description of event",
+                        hintStyle: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.0,
                         ),
                       ),
-                      DateTimePicker(
-                        type: DateTimePickerType.dateTimeSeparate,
-                        dateMask: 'd MMM, yyyy',
-                        initialValue: DateTime.now().toString(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                        icon: Icon(Icons.event),
-                        dateLabelText: 'Date',
-                        timeLabelText: "Hour",
-                        // Disable weekend days to select from the calendar
-                        onChanged: (val) => _eventDate = val,
-                        validator: (val) {
-                          print(val);
-                          return null;
-                        },
-                        onSaved: (val) => print(val),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 30, left: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton.icon(
-                              onPressed: () {
-                                getImage();
-                              },
-                              icon: Icon(
-                                Icons.file_upload,
-                                color: Colors.grey,
+                    ),
+                    DateTimePicker(
+                      type: DateTimePickerType.dateTimeSeparate,
+                      dateMask: 'd MMM, yyyy',
+                      initialValue: DateTime.now().toString(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                      icon: Icon(Icons.event),
+                      dateLabelText: 'Date',
+                      timeLabelText: "Hour",
+                      // Disable weekend days to select from the calendar
+                      onChanged: (val) => _eventDate = val,
+                      validator: (val) {
+                        print(val);
+                        return null;
+                      },
+                      onSaved: (val) => print(val),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 30, left: 10, right: 10, bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton.icon(
+                            onPressed: () {
+                              getImage();
+                            },
+                            icon: Icon(
+                              Icons.file_upload,
+                              color: Colors.grey,
+                            ),
+                            label: Text(
+                              'Upload Cover',
+                              style: GoogleFonts.quicksand(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0,
                               ),
-                              label: Text(
-                                'Upload Cover',
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _isFileUploaded
+                                    ? _imageFile.path
+                                    : 'Upload a 1x1 image',
                                 style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
+                                  fontSize: 11.0,
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  _isFileUploaded
-                                      ? _imageFile.path
-                                      : 'Upload a 1x1 image',
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 11.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
               title: Text('Add Event'),
               actions: <Widget>[
                 InkWell(
                   child: Text('Submit'),
                   onTap: () {
                     if (_formKey.currentState.validate()) {
-                      uploadFile1();
+                      addEvent();
                       _titleEditingController.clear();
                       _descriptionEditingController.clear();
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+        });
+  }
+
+  Future<void> addContactDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _reqFormKey3,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _contactNameEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Name required";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Name of contact",
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _contactPhoneEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Phone";
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Enter phone number",
+                        ),
+                      ),
+                    ],
+                  )),
+              title: Text('Add Contacts'),
+              actions: <Widget>[
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: primary,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 13.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                    ),
+                    child:
+                        Text('Submit', style: TextStyle(color: Colors.white)),
+                  ),
+                  onTap: () async {
+                    User user;
+                    if (_contactNameEditingController.text != null &&
+                        _contactPhoneEditingController.text != null) {
+                      print(user);
+                      addContact();
+                      _contactNameEditingController.clear();
+                      _contactPhoneEditingController.clear();
                       Navigator.of(context).pop();
                     }
                   },
