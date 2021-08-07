@@ -37,8 +37,10 @@ class EventDetailPage extends StatelessWidget {
                           ? Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
-                              child: CachedNetworkImage(
-                                  fit: BoxFit.cover, imageUrl: event.imageUrl),
+                              child: Image.network(
+                                event.imageUrl,
+                                fit: BoxFit.cover,
+                              ),
                             )
                           : const SizedBox.shrink(),
                     ),

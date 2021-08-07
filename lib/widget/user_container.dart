@@ -7,13 +7,15 @@ class UserContainer extends StatelessWidget {
   final String email;
   final String date;
   final String name;
+  final String ministry;
 
   UserContainer(
       {@required this.size,
       @required this.role,
       @required this.email,
       @required this.date,
-      @required this.name});
+      @required this.name,
+      @required this.ministry});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -76,20 +78,34 @@ class UserContainer extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  width: (size.width - 40) * 0.3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        role,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.green),
+                Column(
+                  children: [
+                    Container(
+                      width: (size.width - 40) * 0.3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            role,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: Colors.green),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Text(
+                      ministry != null
+                          ? 'Ministry: $ministry'
+                          : "Ministry: unregistered",
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: black.withOpacity(0.5),
+                          fontWeight: FontWeight.w400),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 )
               ],
             ),

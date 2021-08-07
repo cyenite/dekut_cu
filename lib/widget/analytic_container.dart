@@ -7,7 +7,7 @@ class AnalyticContainer extends StatelessWidget {
   final String detail;
   AnalyticContainer(
       {@required this.color,
-      @required this.detail,
+      this.detail,
       @required this.label});
 
   @override
@@ -58,7 +58,7 @@ class AnalyticContainer extends StatelessWidget {
                   height: 8,
                 ),
                 Text(
-                  detail,
+                  detail!=null? detail : '',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,

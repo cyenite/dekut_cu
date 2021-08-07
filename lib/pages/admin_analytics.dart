@@ -43,6 +43,8 @@ class _AdminStatsState extends State<AdminStats> {
   final GlobalKey<FormState> _reqFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _reqFormKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> _reqFormKey3 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _reqFormKey4 = GlobalKey<FormState>();
+
   final TextEditingController _titleEditingController = TextEditingController();
   final TextEditingController _monthEditingController = TextEditingController();
   final TextEditingController _teachingEditingController =
@@ -383,8 +385,6 @@ class _AdminStatsState extends State<AdminStats> {
                               },
                               child: AnalyticContainer(
                                 color: Colors.blue,
-                                detail:
-                                    snapshot.data['inventoryCount'].toString(),
                                 label: 'Inventory Page',
                               ),
                             ),
@@ -442,6 +442,7 @@ class _AdminStatsState extends State<AdminStats> {
                             role: user['role'],
                             date: user['created_at'].toString(),
                             name: user['name'],
+                            ministry: user['ministry'],
                           );
                         },
                       );
@@ -463,7 +464,7 @@ class _AdminStatsState extends State<AdminStats> {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               content: Form(
-                  key: _reqFormKey2,
+                  key: _reqFormKey4,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
