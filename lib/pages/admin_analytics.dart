@@ -740,17 +740,21 @@ class _AdminStatsState extends State<AdminStats> {
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     final docs = snapshot.data.docs;
-                    return ListView.builder(
-                      reverse: true,
-                      itemCount: docs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final payment = docs[index].data();
-                        print("$payment");
-                        return IncomingPayment(
-                            phone: payment['phone'],
-                            amount: payment['amount'],
-                            category: payment['category']);
-                      },
+                   // print(docs[0].data());
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      child: ListView.builder(
+                        reverse: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          final payment = docs[index].data();
+                          print("$payment");
+                          return IncomingPayment(
+                              phone: payment['phone'],
+                              amount: payment['amount'],
+                              category: payment['category']);
+                        },
+                      ),
                     );
                   } else {
                     return Center(

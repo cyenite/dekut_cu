@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class IncomingPayment extends StatelessWidget {
   final String phone;
-  final String amount;
+  final int amount;
   final String category;
 
   IncomingPayment(
@@ -59,7 +59,7 @@ class IncomingPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      amount,
+                      amount.toString(),
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
