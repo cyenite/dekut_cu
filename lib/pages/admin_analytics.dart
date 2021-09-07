@@ -745,6 +745,7 @@ class _AdminStatsState extends State<AdminStats> {
                       itemCount: docs.length,
                       itemBuilder: (BuildContext context, int index) {
                         final payment = docs[index].data();
+                        print("$payment");
                         return IncomingPayment(
                             phone: payment['phone'],
                             amount: payment['amount'],
