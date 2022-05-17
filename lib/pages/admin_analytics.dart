@@ -523,7 +523,7 @@ class _AdminStatsState extends State<AdminStats> {
                     if (_nameEditingController.text != null &&
                         _emailEditingController.text != null) {
                       print(user);
-                      await AuthHelper.saveAdminUser(
+                      await AuthHelper().saveAdminUser(
                           _nameEditingController.text,
                           _emailEditingController.text,
                           _passwordEditingController.text);

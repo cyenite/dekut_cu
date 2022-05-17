@@ -1,15 +1,18 @@
+import 'package:dekut_cu/controllers/auth_controller.dart';
 import 'package:dekut_cu/pages/root_app.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 import 'auth/auth.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key key}) : super(key: key);
+  SplashScreen({Key key}) : super(key: key);
 
   static MaterialPageRoute get route => MaterialPageRoute(
-        builder: (context) => const SplashScreen(),
+        builder: (context) => SplashScreen(),
       );
+
+  AuthController _authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,12 @@ class SplashScreen extends StatelessWidget {
       },
       initializing: (_) {},
     );*/
+
+    if (_authController.user == null) {
+      _navigateToAuthScreen(context);
+    } else {
+      _navigateToHomeScreen(context);
+    }
 
     return const Scaffold(
       body: Center(

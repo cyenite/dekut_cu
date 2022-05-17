@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dekut_cu/controllers/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class AuthHelper extends GetxController {
   RxBool isAdmin = false.obs;
 
+  AuthController _authController = Get.find<AuthController>();
   static FirebaseFirestore _db = FirebaseFirestore.instance;
-  static saveAdminUser(String name, String email, String password) async {
+
+  void saveAdminUser(String name, String email, String password) async {
     UserCredential result = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
     User user = result.user;

@@ -1,6 +1,9 @@
-import 'package:dekut_cu/pages/auth/widgets/provider_button.dart';
+import 'package:dekut_cu/pages/auth/widgets/sign_in_up_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../root_app.dart';
+import 'decoration_functions.dart';
 import 'title.dart';
 
 class SignIn extends StatelessWidget {
@@ -28,32 +31,33 @@ class SignIn extends StatelessWidget {
                 ),
               ),
             ),
-            /*Expanded(
+            Expanded(
               flex: 4,
               child: ListView(
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: EmailTextFormField(
+                    child: TextFormField(
                       decoration: signInInputDecoration(hintText: 'Email'),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: PasswordTextFormField(
+                    child: TextFormField(
                       decoration: signInInputDecoration(hintText: 'Password'),
                     ),
                   ),
                   SignInBar(
                     label: 'Sign in',
-                    isLoading: isSubmitting,
+                    isLoading: false,
                     onPressed: () {
-                      context.signInWithEmailAndPassword();
+                      Get.to(RootApp());
+                      //context.signInWithEmailAndPassword();
                     },
                   ),
                 ],
               ),
-            ),*/
+            ),
             Expanded(
               flex: 2,
               child: Align(
@@ -61,7 +65,7 @@ class SignIn extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text(
-                      "or sign in with",
+                      "",
                       style: TextStyle(
                         color: Colors.black54,
                       ),
@@ -71,20 +75,7 @@ class SignIn extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ProviderButton(
-                          context: context,
-                          signInType: "google",
-                        ),
-                        ProviderButton(
-                          context: context,
-                          signInType: "apple",
-                        ),
-                        ProviderButton(
-                          context: context,
-                          signInType: "twitter",
-                        ),
-                      ],
+                      children: [],
                     ),
                     const Spacer(),
                     InkWell(
