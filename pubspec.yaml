@@ -33,7 +33,7 @@ dependencies:
   animated_bottom_navigation_bar: any
   fl_chart: any
   percent_indicator: any
-  lit_firebase_auth: ^0.3.0
+  # lit_firebase_auth: 0.3.0
 
   animations: any
   google_fonts: any
@@ -41,22 +41,22 @@ dependencies:
   rflutter_alert:
   date_time_picker: any
   image_picker_web: any
-  mime_type: ^1.0.0
+  mime_type: any
   cached_network_image: ^2.2.0+1
 
-  firebase_core: ^0.5.0
+  firebase_core:
   cloud_firestore:
   get: any
   mpesa: any
   flutterwave: any
   image_picker:
-  firebase_storage: 4.0.0
-  url_launcher: ^6.0.5
+  firebase_storage:
+  url_launcher: any
+  firebase_auth: ^3.3.18
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
-  integration_test:
     sdk: flutter
 
 # For information on the generic Dart part of this file, see the

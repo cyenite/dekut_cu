@@ -1,10 +1,6 @@
 import 'package:dekut_cu/pages/auth/widgets/provider_button.dart';
-import 'package:dekut_cu/pages/auth/widgets/sign_in_up_bar.dart';
-import 'package:dekut_cu/pages/auth/widgets/sign_in_up_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
-import 'decoration_functions.dart';
 import 'title.dart';
 
 class SignIn extends StatelessWidget {
@@ -17,8 +13,8 @@ class SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSubmitting = context.isSubmitting();
-    return SignInForm(
+    //final isSubmitting = context.isSubmitting();
+    return Form(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
@@ -32,7 +28,7 @@ class SignIn extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
+            /*Expanded(
               flex: 4,
               child: ListView(
                 children: [
@@ -57,7 +53,7 @@ class SignIn extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ),*/
             Expanded(
               flex: 2,
               child: Align(

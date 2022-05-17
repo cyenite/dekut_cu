@@ -54,7 +54,7 @@ class _InventoryPageState extends State<InventoryPage> {
                       shrinkWrap: true,
                       itemCount: docs.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final inventory = docs[index].data();
+                        Map<String, dynamic> inventory = docs[index].data();
                         print(inventory);
                         return InventoryCard(
                           inventory: Inventory(

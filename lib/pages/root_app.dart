@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/pages/daily_page.dart';
@@ -12,9 +10,6 @@ import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:get/get.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'admin_analytics.dart';
 
@@ -47,8 +42,6 @@ class _RootAppState extends State<RootApp> {
     ContributionPage()
   ];
 
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -64,12 +57,12 @@ class _RootAppState extends State<RootApp> {
   @override
   Widget build(BuildContext context) {
     //FirebaseUser user;
-    final litUser = context.getSignedInUser();
+    /*final litUser = context.getSignedInUser();
     litUser.when(
       (litUser) => user = litUser,
       empty: () {},
       initializing: () {},
-    );
+    );*/
     AuthHelper.saveUser(user);
     return StreamBuilder<User>(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -87,7 +80,7 @@ class _RootAppState extends State<RootApp> {
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
                   final userDoc = snapshot.data;
-                  final user = userDoc.data();
+                  Map<String, dynamic> user = userDoc.data();
                   if (user['role'] == 'admin') {
                     return adminApp();
                   } else {

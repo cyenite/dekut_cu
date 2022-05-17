@@ -1,15 +1,9 @@
 import 'package:animations/animations.dart';
-import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/pages/auth/widgets/register.dart';
 import 'package:dekut_cu/pages/auth/widgets/sign_in.dart';
-import 'package:dekut_cu/services/auth_helper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
-import '../root_app.dart';
 import 'widgets/background_painter.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -44,10 +38,9 @@ class _AuthScreenState extends State<AuthScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: LitAuth.custom(
-        errorNotification: const NotificationConfig(
+      body: Container(
+        /*errorNotification: const NotificationConfig(
           backgroundColor: Palette.darkBlue,
           icon: Icon(
             Icons.error_outline,
@@ -57,7 +50,7 @@ class _AuthScreenState extends State<AuthScreen>
         ),
         onAuthSuccess: () {
           Get.off(RootApp());
-        },
+        },*/
         child: Stack(
           children: [
             SizedBox.expand(
@@ -91,7 +84,7 @@ class _AuthScreenState extends State<AuthScreen>
                             ? SignIn(
                                 key: const ValueKey('SignIn'),
                                 onRegisterClicked: () {
-                                  context.resetSignInForm();
+                                  //context.resetSignInForm();
                                   showSignInPage.value = false;
                                   _controller.forward();
                                 },
@@ -99,7 +92,7 @@ class _AuthScreenState extends State<AuthScreen>
                             : Register(
                                 key: const ValueKey('Register'),
                                 onSignInPressed: () {
-                                  context.resetSignInForm();
+                                  //context.resetSignInForm();
                                   showSignInPage.value = true;
                                   _controller.reverse();
                                 },

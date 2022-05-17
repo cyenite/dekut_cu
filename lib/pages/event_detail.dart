@@ -4,7 +4,6 @@ import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class EventDetailPage extends StatelessWidget {
   final Event event;
@@ -15,12 +14,8 @@ class EventDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     User user;
 
-    final litUser = context.getSignedInUser();
-    litUser.when(
-      (litUser) => user = litUser,
-      empty: () {},
-      initializing: () {},
-    );
+    //final litUser = context.getSignedInUser();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

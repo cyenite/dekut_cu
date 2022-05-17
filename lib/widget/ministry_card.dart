@@ -3,7 +3,6 @@ import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class MinistryCard extends StatefulWidget {
   final String title;
@@ -23,12 +22,12 @@ class _MinistryCardState extends State<MinistryCard> {
 
   @override
   void initState() {
-    final litUser = context.getSignedInUser();
+    /*final litUser = context.getSignedInUser();
     litUser.when(
       (litUser) => user = litUser,
       empty: () {},
       initializing: () {},
-    );
+    );*/
     updateMinistry();
     super.initState();
   }

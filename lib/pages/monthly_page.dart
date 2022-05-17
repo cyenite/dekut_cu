@@ -134,7 +134,7 @@ class _DevotionalsPageState extends State<DevotionalsPage> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: docs.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final devotional = docs[index].data();
+                      Map<String, dynamic> devotional = docs[index].data();
                       return MonthlyDevotion(
                         size: size,
                         month: devotional['month'],

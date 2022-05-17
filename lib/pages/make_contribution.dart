@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
 class ContributionPage extends StatefulWidget {
   @override
@@ -23,12 +22,6 @@ class _ContributionPageState extends State<ContributionPage> {
   TextEditingController _amount = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final litUser = context.getSignedInUser();
-    litUser.when(
-      (litUser) => user = litUser,
-      empty: () {},
-      initializing: () {},
-    );
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(),

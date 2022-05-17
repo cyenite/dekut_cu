@@ -1,6 +1,6 @@
 import 'package:dekut_cu/pages/root_app.dart';
 import 'package:flutter/material.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
+
 
 import 'auth/auth.dart';
 
@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watchSignedInUser();
+    /*final user = context.watchSignedInUser();
     user.map(
       (value) {
         _navigateToHomeScreen(context);
@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
         _navigateToAuthScreen(context);
       },
       initializing: (_) {},
-    );
+    );*/
 
     return const Scaffold(
       body: Center(

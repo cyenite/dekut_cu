@@ -21,6 +21,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as Path;
 
 import 'inventory_page.dart';
@@ -116,16 +117,17 @@ class _AdminStatsState extends State<AdminStats> {
   uploadFile1() async {
     FirebaseStorage _storage = FirebaseStorage.instance;
     try {
-      StorageReference storageReference = FirebaseStorage.instance
+      Reference storageReference = FirebaseStorage.instance
           .ref()
           .child('images/${Path.basename(_imageFile.path)}}');
-      StorageUploadTask uploadTask = storageReference.putFile(_imageFile);
-      await uploadTask.onComplete;
-      print('File Uploaded');
-      storageReference.getDownloadURL().then((fileURL) {
-        setState(() {
-          _imageUrl = fileURL.toString();
-          print(_imageUrl);
+      UploadTask uploadTask = storageReference.putFile(_imageFile);
+      await uploadTask.whenComplete(() {
+        print('File Uploaded');
+        storageReference.getDownloadURL().then((fileURL) {
+          setState(() {
+            _imageUrl = fileURL.toString();
+            print(_imageUrl);
+          });
         });
       });
     } catch (e) {
@@ -434,7 +436,7 @@ class _AdminStatsState extends State<AdminStats> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: docs.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final user = docs[index].data();
+                          Map<String, dynamic> user = docs[index].data();
                           print(user);
                           return UserContainer(
                             size: size,
@@ -740,14 +742,14 @@ class _AdminStatsState extends State<AdminStats> {
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     final docs = snapshot.data.docs;
-                   // print(docs[0].data());
+                    // print(docs[0].data());
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.6,
                       width: MediaQuery.of(context).size.width * 0.7,
                       child: ListView.builder(
                         reverse: true,
                         itemBuilder: (BuildContext context, int index) {
-                          final payment = docs[index].data();
+                          Map<String, dynamic> payment = docs[index].data();
                           print("$payment");
                           return IncomingPayment(
                               phone: payment['phone'],

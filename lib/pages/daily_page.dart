@@ -196,7 +196,8 @@ class _DailyPageState extends State<DailyPage> {
               stream: FirebaseFirestore.instance
                   .collection("daily_studies")
                   .snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
                   final docs = snapshot.data.docs;
                   return ListView.builder(
@@ -204,7 +205,7 @@ class _DailyPageState extends State<DailyPage> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: docs.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final devotional = docs[index].data();
+                      Map<String, dynamic> devotional = docs[index].data();
                       return DailyDevotion(
                         size: size,
                         date: devotional['date'],

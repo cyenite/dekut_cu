@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
-import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'events_page.dart';
@@ -26,12 +25,6 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController password = TextEditingController(text: "123456");
   @override
   Widget build(BuildContext context) {
-    final litUser = context.getSignedInUser();
-    litUser.when(
-      (litUser) => user = litUser,
-      empty: () {},
-      initializing: () {},
-    );
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(user),
@@ -70,7 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        context.signOut();
+                        /// TODO: Implement signout
+                        //context.signOut();
                         Get.off(AuthScreen());
                       },
                       child: Icon(AntDesign.logout),
@@ -366,7 +360,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   shrinkWrap: true,
                   itemCount: docs.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final contact = docs[index].data();
+                    Map<String, dynamic> contact = docs[index].data();
                     print(contact);
                     return ContactCard(
                         phone: contact['phone'], name: contact['name']);
