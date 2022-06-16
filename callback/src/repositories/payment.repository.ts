@@ -1,16 +1,17 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {FirestoreDataSource} from '../datasources';
-import {Device, DeviceRelations} from '../models';
+import {Payment, PaymentRelations} from '../models/payment.model';
 
-export class DeviceRepository extends DefaultCrudRepository<
-  Device,
-  typeof Device.prototype.id,
-  DeviceRelations
+
+export class PaymentRepository extends DefaultCrudRepository<
+  Payment,
+  typeof Payment.prototype.id,
+  PaymentRelations
 > {
   constructor(
     @inject('datasources.Firestore') dataSource: FirestoreDataSource,
   ) {
-    super(Device, dataSource);
+    super(Payment, dataSource);
   }
 }

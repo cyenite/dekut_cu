@@ -1,3 +1,2 @@
-export * from './command.model';
-export * from './device.model';
+export * from './payment.model';
 
