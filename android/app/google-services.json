@@ -1,0 +1,246 @@
+{
+  "project_info": {
+    "project_number": "554449466358",
+    "firebase_url": "https://paids-da7be.firebaseio.com",
+    "project_id": "paids-da7be",
+    "storage_bucket": "paids-da7be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:eb80a0b2a9ededbfce0dd7",
+        "android_client_info": {
+          "package_name": "com.cold.vpn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:707ff0881155b73dce0dd7",
+        "android_client_info": {
+          "package_name": "com.kenova.apps.dhostel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:5579fa5233416030ce0dd7",
+        "android_client_info": {
+          "package_name": "com.kenova.chatpen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-oaholjf2sijndqr1cs715uc8lj9ncqe9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kenova.chatpen",
+            "certificate_hash": "166ae4fec4db676e10bfe758df380e959abd89f3"
+          }
+        },
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:67b25c55751c8533ce0dd7",
+        "android_client_info": {
+          "package_name": "com.kenova.dekut_cu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-dj1ls6asj4dcm0a97pf17t2oron3q4s6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kenova.dekut_cu",
+            "certificate_hash": "166ae4fec4db676e10bfe758df380e959abd89f3"
+          }
+        },
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:1d52c4c97d07c99bce0dd7",
+        "android_client_info": {
+          "package_name": "com.kenova.detector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:e73436f8feceab3ace0dd7",
+        "android_client_info": {
+          "package_name": "com.kenova.ev_stations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-4e5spjnn8g2namaq3a65j6tp48jng77a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kenova.ev_stations",
+            "certificate_hash": "166ae4fec4db676e10bfe758df380e959abd89f3"
+          }
+        },
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554449466358:android:d56fc74c81f61f53ce0dd7",
+        "android_client_info": {
+          "package_name": "com.kenova.project.jobportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554449466358-aheqts7uoe6821ojne2iteqdlkau375g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kenova.project.jobportal",
+            "certificate_hash": "e6b1e5f3cf052ae7bc6483bee288164d6264a224"
+          }
+        },
+        {
+          "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzoJtJiKkhz2_k47_pJbeOn2HsyIpDuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554449466358-02ed39u274pvn57bv890km3r67fdvc5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
