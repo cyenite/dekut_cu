@@ -1,3 +1,4 @@
+import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'decoration_functions.dart';
@@ -5,9 +6,11 @@ import 'sign_in_up_bar.dart';
 import 'title.dart';
 
 class Register extends StatelessWidget {
-  const Register({Key key, this.onSignInPressed}) : super(key: key);
+  Register({Key key, this.onSignInPressed}) : super(key: key);
 
   final VoidCallback onSignInPressed;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class Register extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: TextFormField(
+                        controller: _emailController,
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -43,6 +47,7 @@ class Register extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: TextFormField(
+                      controller: _passwordController,
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -55,6 +60,8 @@ class Register extends StatelessWidget {
                     isLoading: false,
                     onPressed: () {
                       //context.registerWithEmailAndPassword();
+                      AuthHelper.addNewUser(_emailController.text,
+                          _emailController.text, _passwordController.text);
                     },
                   ),
                   Align(

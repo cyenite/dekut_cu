@@ -64,7 +64,7 @@ class _DailyPageState extends State<DailyPage> {
           onPressed: () {
             if (_key.currentState.validate()) {
               _key.currentState.save();
-              user1.updateProfile(displayName: userName);
+              user1.updateDisplayName(userName);
               FirebaseFirestore.instance
                   .collection('users')
                   .doc(user1.uid)
@@ -122,7 +122,7 @@ class _DailyPageState extends State<DailyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Daily Bible Study",
+                        "Daily Devotionals",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

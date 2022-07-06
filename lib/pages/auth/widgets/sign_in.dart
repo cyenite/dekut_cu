@@ -1,4 +1,5 @@
 import 'package:dekut_cu/pages/auth/widgets/sign_in_up_bar.dart';
+import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,13 +8,15 @@ import 'decoration_functions.dart';
 import 'title.dart';
 
 class SignIn extends StatelessWidget {
-  const SignIn({
+  SignIn({
     Key key,
     @required this.onRegisterClicked,
   }) : super(key: key);
 
   final VoidCallback onRegisterClicked;
 
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     //final isSubmitting = context.isSubmitting();
@@ -38,12 +41,16 @@ class SignIn extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
                       decoration: signInInputDecoration(hintText: 'Email'),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: TextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      controller: _passwordController,
                       decoration: signInInputDecoration(hintText: 'Password'),
                     ),
                   ),
@@ -51,8 +58,7 @@ class SignIn extends StatelessWidget {
                     label: 'Sign in',
                     isLoading: false,
                     onPressed: () {
-                      Get.to(RootApp());
-                      //context.signInWithEmailAndPassword();
+                      AuthHelper.signInUser(_emailController.text, _passwordController.text);
                     },
                   ),
                 ],

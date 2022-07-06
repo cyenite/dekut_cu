@@ -44,7 +44,7 @@ class _DevotionalsPageState extends State<DevotionalsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Quarterly Devotionals",
+                        "Announcements",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

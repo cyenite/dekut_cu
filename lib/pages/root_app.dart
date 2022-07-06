@@ -45,7 +45,7 @@ class _RootAppState extends State<RootApp> {
   @override
   void initState() {
     // TODO: implement initState
-
+    user = FirebaseAuth.instance.currentUser;
     super.initState();
   }
 
@@ -63,7 +63,6 @@ class _RootAppState extends State<RootApp> {
       empty: () {},
       initializing: () {},
     );*/
-    AuthHelper.saveUser(user);
     return StreamBuilder<User>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -96,7 +95,7 @@ class _RootAppState extends State<RootApp> {
               },
             );
           }
-          return adminApp();
+          return userApp();
         });
   }
 

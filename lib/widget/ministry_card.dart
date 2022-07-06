@@ -9,15 +9,20 @@ class MinistryCard extends StatefulWidget {
   final String description;
   bool status;
   Function onClick;
+  User user;
 
-  MinistryCard({this.description, this.title, this.status, this.onClick});
+  MinistryCard(
+      {this.description,
+      this.title,
+      this.status,
+      this.onClick,
+      @required this.user});
 
   @override
   _MinistryCardState createState() => _MinistryCardState();
 }
 
 class _MinistryCardState extends State<MinistryCard> {
-  User user;
   String userMinistry;
 
   @override
@@ -34,7 +39,7 @@ class _MinistryCardState extends State<MinistryCard> {
 
   updateMinistry() {
     setState(() {
-      DbHelper.getUserMinistry(user.uid)
+      DbHelper.getUserMinistry(widget.user.uid)
           .then((value) => userMinistry = value.toString());
     });
   }
@@ -82,7 +87,7 @@ class _MinistryCardState extends State<MinistryCard> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        AuthHelper.saveUserMinistry(user, widget.title);
+                        AuthHelper.saveUserMinistry(widget.user, widget.title);
                         updateMinistry();
                       });
                     },

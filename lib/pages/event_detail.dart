@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dekut_cu/models/event.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
@@ -12,7 +13,7 @@ class EventDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User user;
+    User user = FirebaseAuth.instance.currentUser;
 
     //final litUser = context.getSignedInUser();
 
@@ -88,13 +89,44 @@ class EventDetailPage extends StatelessWidget {
                                 shape: BoxShape.rectangle,
                                 color: primary,
                               ),
-                              child: Text(
+                              child: StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection("events")
+                                    .doc(event.title)
+                                    .snapshots(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  List<dynamic> attendees =
+                                      snapshot.data.get('attendees');
+                                  print(attendees);
+                                  if (snapshot.hasData &&
+                                      snapshot != null &&
+                                      attendees.contains(user.email)) {
+                                    return Text(
+                                      'Cancel Attendance',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    );
+                                  } else {
+                                    return Text(
+                                      'Attend',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                              /*Text(
                                 'Attend',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
-                              ), /*IconButton(
+                              ),*/ /*IconButton(
                                 icon: Icon(
                                   Icons.bookmark_border,
                                   color: Colors.white,

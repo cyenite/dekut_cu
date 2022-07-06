@@ -7,7 +7,6 @@ import 'package:dekut_cu/json/day_month.dart';
 import 'package:dekut_cu/models/daily_study.dart';
 import 'package:dekut_cu/models/devotional.dart';
 import 'package:dekut_cu/models/event.dart';
-import 'package:dekut_cu/services/auth_helper.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/analytic_container.dart';
@@ -167,7 +166,7 @@ class _AdminStatsState extends State<AdminStats> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            addAdminDialog();
+                            //addAdminDialog();
                           },
                           child: Icon(AntDesign.adduser),
                         ),
@@ -300,9 +299,9 @@ class _AdminStatsState extends State<AdminStats> {
                                   addQuarterlyDialog();
                                 },
                                 child: ContentManagementContainer(
-                                  color: Palette.orange,
+                                  color: Colors.transparent,
                                   detail: '',
-                                  label: 'Add Quarterly Devotionals',
+                                  label: 'Add Announcement',
                                 ),
                               ),
                               GestureDetector(
@@ -310,9 +309,9 @@ class _AdminStatsState extends State<AdminStats> {
                                   addDailyDialog();
                                 },
                                 child: ContentManagementContainer(
-                                  color: Palette.darkBlue,
+                                  color: Colors.transparent,
                                   detail: '',
-                                  label: 'Add Daily Bible Study',
+                                  label: 'Add Devotional',
                                 ),
                               ),
                             ],
@@ -459,7 +458,7 @@ class _AdminStatsState extends State<AdminStats> {
     );
   }
 
-  Future<void> addAdminDialog() async {
+  /*Future<void> addAdminDialog() async {
     return await showDialog(
         context: context,
         builder: (context) {
@@ -523,7 +522,7 @@ class _AdminStatsState extends State<AdminStats> {
                     if (_nameEditingController.text != null &&
                         _emailEditingController.text != null) {
                       print(user);
-                      await AuthHelper().saveAdminUser(
+                      AuthHelper().saveAdminUser(
                           _nameEditingController.text,
                           _emailEditingController.text,
                           _passwordEditingController.text);
@@ -538,7 +537,7 @@ class _AdminStatsState extends State<AdminStats> {
             );
           });
         });
-  }
+  }*/
 
   Future<void> addQuarterlyDialog() async {
     return await showDialog(

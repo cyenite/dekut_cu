@@ -34,11 +34,6 @@ class CustomEventCard extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      event.description,
-                      maxLines: 4,
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
                   ]),
               Text(
                 event.date,
