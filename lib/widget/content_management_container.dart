@@ -1,4 +1,3 @@
-import 'package:dekut_cu/config/palette.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,7 @@ class ContentManagementContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Card(
-      color: Palette.orange,
+      color: Colors.transparent,
       child: Container(
         width: (size.width - 80) / 2,
         height: 170,

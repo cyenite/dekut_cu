@@ -14,7 +14,7 @@ class ContributionPage extends StatefulWidget {
 }
 
 class _ContributionPageState extends State<ContributionPage> {
-  User user;
+  User user = FirebaseAuth.instance.currentUser;
   bool _isLoading = false;
   int activeCategory = 0;
   String selectedCategory = "Giving";

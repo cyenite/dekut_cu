@@ -10,7 +10,6 @@ import 'package:dekut_cu/models/event.dart';
 import 'package:dekut_cu/services/database_helper.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:dekut_cu/widget/analytic_container.dart';
-import 'package:dekut_cu/widget/content_management_container.dart';
 import 'package:dekut_cu/widget/incoming_payment.dart';
 import 'package:dekut_cu/widget/user_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -298,20 +297,20 @@ class _AdminStatsState extends State<AdminStats> {
                                 onTap: () {
                                   addQuarterlyDialog();
                                 },
-                                child: ContentManagementContainer(
-                                  color: Colors.transparent,
+                                child: AnalyticContainer(
+                                  color: Colors.blue,
                                   detail: '',
-                                  label: 'Add Announcement',
+                                  label: 'Create Announcement',
                                 ),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   addDailyDialog();
                                 },
-                                child: ContentManagementContainer(
-                                  color: Colors.transparent,
+                                child: AnalyticContainer(
+                                  color: Colors.blue,
                                   detail: '',
-                                  label: 'Add Devotional',
+                                  label: 'Add Devotionals',
                                 ),
                               ),
                             ],
