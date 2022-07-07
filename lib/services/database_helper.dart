@@ -141,4 +141,18 @@ class DbHelper {
 
     await _db.collection("inventory").doc(inventory.name).set(inventData);
   }
+
+  static createTempTransaction(
+      String merchantRequestId, String category) async {
+    Map<String, dynamic> transactionData = {
+      "amount": 0,
+      "category": category,
+      "phone": 0,
+      "confirmed": false,
+    };
+    await _db
+        .collection("payments")
+        .doc(merchantRequestId)
+        .set(transactionData);
+  }
 }

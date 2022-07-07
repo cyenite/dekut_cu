@@ -746,13 +746,18 @@ class _AdminStatsState extends State<AdminStats> {
                       width: MediaQuery.of(context).size.width * 0.7,
                       child: ListView.builder(
                         reverse: true,
+                        itemCount: docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           Map<String, dynamic> payment = docs[index].data();
                           print("$payment");
                           return IncomingPayment(
-                              phone: payment['phone'],
-                              amount: payment['amount'],
-                              category: payment['category']);
+                            phone: payment['phone'].toString(),
+                            amount: payment['amount'],
+                            category: payment['category'],
+                            confirmed: payment['confirmed'] != null
+                                ? payment['confirmed']
+                                : false,
+                          );
                         },
                       ),
                     );

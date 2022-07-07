@@ -1,19 +1,25 @@
-import 'package:dekut_cu/theme/colors.dart';
+import 'package:banner_listtile/banner_listtile.dart';
 import 'package:flutter/material.dart';
+
+import '../theme/colors.dart';
 
 class IncomingPayment extends StatelessWidget {
   final String phone;
   final int amount;
   final String category;
+  final bool confirmed;
 
   IncomingPayment(
-      {@required this.phone, @required this.amount, @required this.category});
+      {@required this.phone,
+      @required this.amount,
+      @required this.category,
+      @required this.confirmed});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        /*Container(
           margin: EdgeInsets.only(top: 10, bottom: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
@@ -69,6 +75,31 @@ class IncomingPayment extends StatelessWidget {
                 ),
               )
             ],
+          ),
+        ),*/
+        BannerListTile(
+          bannerText: confirmed ? "Paid" : "Pending",
+          bannerColor: confirmed ? Colors.green : Colors.red,
+          backgroundColor: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          title: Text(
+            category,
+            style: TextStyle(
+                fontSize: 18, color: Colors.green, fontWeight: FontWeight.w400),
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
+            phone,
+            style: TextStyle(
+                fontSize: 14,
+                color: black.withOpacity(0.5),
+                fontWeight: FontWeight.w400),
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: Text(
+            amount.toString(),
+            style: TextStyle(
+                fontWeight: FontWeight.w600, fontSize: 14, color: Colors.green),
           ),
         ),
         Padding(

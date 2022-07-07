@@ -1,6 +1,7 @@
 import 'package:dekut_cu/json/contribution_categories.dart';
 import 'package:dekut_cu/models/payment.dart';
 import 'package:dekut_cu/services/database_helper.dart';
+import 'package:dekut_cu/services/mpesa_service.dart';
 import 'package:dekut_cu/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,16 +32,16 @@ class _ContributionPageState extends State<ContributionPage> {
   makePayment() async {
     final Flutterwave flutterwave = Flutterwave.forUIPayment(
         context: this.context,
-        encryptionKey: "FLWSECK_TEST9c64f36a860d",
-        publicKey: "FLWPUBK_TEST-d7d2ef91cdfa4ce42c7aed94bafc7ffb-X",
+        encryptionKey: "c28e35d2242b1c640c28ad22",
+        publicKey: "FLWPUBK-9c4d4e67bf69bb6398aca7ed4fc00211-X",
         currency: "KES",
         amount: _amount.text,
         email: user.email,
         fullName: _phoneNumber.text,
         txRef: selectedCategory,
-        isDebugMode: true,
+        isDebugMode: false,
         phoneNumber: _phoneNumber.text,
-        acceptCardPayment: false,
+        acceptCardPayment: true,
         acceptUSSDPayment: false,
         acceptAccountPayment: false,
         acceptFrancophoneMobileMoney: false,
@@ -281,7 +282,9 @@ class _ContributionPageState extends State<ContributionPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            makePayment();
+                            PaymentHelper.makePayment(
+                                _phoneNumber.text, _amount.text, selectedCategory);
+                            //makePayment();
                           },
                           child: Container(
                             width: 50,
